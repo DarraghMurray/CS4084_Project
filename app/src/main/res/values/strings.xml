@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CS4084 Project</string>
+    <string name="log_in">Log-In</string>
 </resources>
