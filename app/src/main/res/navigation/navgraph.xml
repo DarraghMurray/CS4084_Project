@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navgraph"
+    app:startDestination="@id/loginScreen">
+
+    <fragment
+        android:id="@+id/loginScreen"
+        android:name="ie.ul.cs4084project.LoginScreen"
+        android:label="fragment_login_screen"
+        tools:layout="@layout/fragment_login_screen" >
+        <action
+            android:id="@+id/action_loginScreen_to_mainFeed"
+            app:destination="@id/mainFeed" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFeed"
+        android:name="ie.ul.cs4084project.MainFeed"
+        android:label="fragment_main_feed"
+        tools:layout="@layout/fragment_main_feed" >
+        <action
+            android:id="@+id/action_mainFeed_to_findItem"
+            app:destination="@id/findItem" />
+        <action
+            android:id="@+id/action_mainFeed_to_createPost"
+            app:destination="@id/createPost" />
+    </fragment>
+    <fragment
+        android:id="@+id/findItem"
+        android:name="ie.ul.cs4084project.FindItem"
+        android:label="fragment_find_item"
+        tools:layout="@layout/fragment_find_item" >
+        <action
+            android:id="@+id/action_findItem_to_itemPage"
+            app:destination="@id/itemPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPost"
+        android:name="ie.ul.cs4084project.CreatePost"
+        android:label="fragment_create_post"
+        tools:layout="@layout/fragment_create_post" >
+        <action
+            android:id="@+id/action_createPost_to_mainFeed"
+            app:destination="@id/mainFeed" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemPage"
+        android:name="ie.ul.cs4084project.ItemPage"
+        android:label="fragment_item_page"
+        tools:layout="@layout/fragment_item_page" >
+        <action
+            android:id="@+id/action_itemPage_to_messageScreen"
+            app:destination="@id/messageScreen" />
+        <action
+            android:id="@+id/action_itemPage_to_purchaseScreen"
+            app:destination="@id/purchaseScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/messageScreen"
+        android:name="ie.ul.cs4084project.MessageScreen"
+        android:label="fragment_message_screen"
+        tools:layout="@layout/fragment_message_screen" >
+        <action
+            android:id="@+id/action_messageScreen_to_purchaseScreen"
+            app:destination="@id/purchaseScreen" />
+        <action
+            android:id="@+id/action_messageScreen_to_loginScreen"
+            app:destination="@id/loginScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/purchaseScreen"
+        android:name="ie.ul.cs4084project.PurchaseScreen"
+        android:label="fragment_purchase_screen"
+        tools:layout="@layout/fragment_purchase_screen" >
+        <action
+            android:id="@+id/action_purchaseScreen_to_loginScreen"
+            app:destination="@id/loginScreen" />
+    </fragment>
+</navigation>
