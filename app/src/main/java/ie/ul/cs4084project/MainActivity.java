@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                         .build() , RC_SIGN_IN);
     }
 
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode, data);
 
