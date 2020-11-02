@@ -3,17 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navgraph"
-    app:startDestination="@id/loginScreen">
+    app:startDestination="@id/mainFeed">
 
-    <fragment
-        android:id="@+id/loginScreen"
-        android:name="ie.ul.cs4084project.LoginScreen"
-        android:label="fragment_login_screen"
-        tools:layout="@layout/fragment_login_screen" >
-        <action
-            android:id="@+id/action_loginScreen_to_mainFeed"
-            app:destination="@id/mainFeed" />
-    </fragment>
     <fragment
         android:id="@+id/mainFeed"
         android:name="ie.ul.cs4084project.MainFeed"
@@ -64,17 +55,10 @@
         <action
             android:id="@+id/action_messageScreen_to_purchaseScreen"
             app:destination="@id/purchaseScreen" />
-        <action
-            android:id="@+id/action_messageScreen_to_loginScreen"
-            app:destination="@id/loginScreen" />
     </fragment>
     <fragment
         android:id="@+id/purchaseScreen"
         android:name="ie.ul.cs4084project.PurchaseScreen"
         android:label="fragment_purchase_screen"
-        tools:layout="@layout/fragment_purchase_screen" >
-        <action
-            android:id="@+id/action_purchaseScreen_to_loginScreen"
-            app:destination="@id/loginScreen" />
-    </fragment>
+        tools:layout="@layout/fragment_purchase_screen" />
 </navigation>
