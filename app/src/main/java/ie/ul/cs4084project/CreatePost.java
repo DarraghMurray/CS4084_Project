@@ -2,11 +2,21 @@ package ie.ul.cs4084project;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +33,10 @@ public class CreatePost extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private TextInputLayout textInputName;
+    private TextInputLayout textInputDescription;
+    private TextInputLayout textInputPrice;
 
     public CreatePost() {
         // Required empty public constructor
@@ -62,4 +76,68 @@ public class CreatePost extends Fragment {
         return inflater.inflate(R.layout.fragment_create_post, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        textInputName = view.findViewById(R.id.TextInputName);
+        textInputDescription = view.findViewById(R.id.TextInputDescription);
+        textInputPrice = view.findViewById(R.id.TextInputPrice);
+    }
+
+    // adds post data to database and exits CreatePost fragment
+    // not sure on adding images yet
+    public void onPostClicked(View view) {
+
+        if(validateName() && validateDescription() && validatePrice()) {
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            CollectionReference posts = db.collection("Posts");
+            Map<String,Object> currentPost = new HashMap<>();
+            currentPost.put("ItemName", textInputName.getEditText().getText().toString());
+            currentPost.put("ItemDescription", textInputDescription.getEditText().getText().toString());
+            currentPost.put("ItemPrice", textInputPrice.getEditText().getText().toString());
+            currentPost.put("TimeStamp", System.currentTimeMillis());
+            posts.document().set(currentPost);
+        }
+
+    }
+
+    //these three methods validate the post input
+    private boolean validatePrice() {
+        String userInput = textInputName.getEditText().getText().toString();
+
+        if(userInput.isEmpty()) {
+            textInputName.setError("field can't be empty");
+            return false;
+        } else {
+            textInputName.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateDescription() {
+        String userInput = textInputDescription.getEditText().getText().toString();
+
+        if(userInput.isEmpty()) {
+            textInputDescription.setError("field can't be empty");
+            return false;
+        } else {
+            textInputDescription.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateName() {
+        String userInput = textInputPrice.getEditText().getText().toString();
+
+        if(userInput.isEmpty()) {
+            textInputPrice.setError("field can't be empty");
+            return false;
+        } else {
+            textInputPrice.setError(null);
+            return true;
+        }
+    }
 }
