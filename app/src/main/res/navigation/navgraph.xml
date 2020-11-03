@@ -14,7 +14,7 @@
             android:id="@+id/action_mainFeed_to_findItem"
             app:destination="@id/findItem" />
         <action
-            android:id="@+id/action_mainFeed_to_createPost"
+            android:id="@+id/action_mainFeed_to_createPost2"
             app:destination="@id/createPost" />
     </fragment>
     <fragment
@@ -32,7 +32,7 @@
         android:label="fragment_create_post"
         tools:layout="@layout/fragment_create_post" >
         <action
-            android:id="@+id/action_createPost_to_mainFeed"
+            android:id="@+id/action_createPost_to_mainFeed2"
             app:destination="@id/mainFeed" />
     </fragment>
     <fragment
@@ -55,10 +55,17 @@
         <action
             android:id="@+id/action_messageScreen_to_purchaseScreen"
             app:destination="@id/purchaseScreen" />
+        <action
+            android:id="@+id/action_messageScreen_to_mainFeed"
+            app:destination="@id/mainFeed" />
     </fragment>
     <fragment
         android:id="@+id/purchaseScreen"
         android:name="ie.ul.cs4084project.PurchaseScreen"
         android:label="fragment_purchase_screen"
-        tools:layout="@layout/fragment_purchase_screen" />
+        tools:layout="@layout/fragment_purchase_screen" >
+        <action
+            android:id="@+id/action_purchaseScreen_to_mainFeed"
+            app:destination="@id/mainFeed" />
+    </fragment>
 </navigation>
