@@ -2,18 +2,26 @@ package ie.ul.cs4084project;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MainFeed#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFeed extends Fragment {
+public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +31,9 @@ public class MainFeed extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    MyRecyclerViewAdapter adapter;
+    private RecyclerView itemFeed;
 
     public MainFeed() {
         // Required empty public constructor
@@ -60,5 +71,34 @@ public class MainFeed extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main_feed, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        List<String> names = getNamesList();
+        itemFeed = view.findViewById(R.id.itemFeed);
+
+        itemFeed.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new MyRecyclerViewAdapter(getContext(), names);
+        adapter.setClickListener(this);
+        itemFeed.setAdapter(adapter);
+    }
+        private List<String> getNamesList() {
+            List<String> names = new ArrayList<>();
+
+            char a = 'a';
+
+            for (int i = 0; i < 26; i++) {
+                names.add(Character.toString(a));
+                a += 1;
+            }
+            return names;
+        }
+
+    public void onItemClick(View view, int position) {
+        Toast.makeText( getActivity(),"you clicked " + adapter.getItem(position) + " on row number"
+                + position, Toast.LENGTH_SHORT).show();
     }
 }
