@@ -85,17 +85,17 @@ public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClic
         adapter.setClickListener(this);
         itemFeed.setAdapter(adapter);
     }
-        private List<String> getNamesList() {
-            List<String> names = new ArrayList<>();
+    private List<String> getNamesList() {
+        List<String> names = new ArrayList<>();
 
-            char a = 'a';
+        char a = 'a';
 
-            for (int i = 0; i < 26; i++) {
-                names.add(Character.toString(a));
-                a += 1;
-            }
-            return names;
+        for (int i = 0; i < 26; i++) {
+            names.add(Character.toString(a));
+            a += 1;
         }
+        return names;
+    }
 
     public void onItemClick(View view, int position) {
         Toast.makeText( getActivity(),"you clicked " + adapter.getItem(position) + " on row number"
