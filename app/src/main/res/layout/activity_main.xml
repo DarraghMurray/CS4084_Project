@@ -18,33 +18,58 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
         app:navGraph="@navigation/navgraph" />
 
     <Button
-        android:id="@+id/button4"
-        android:layout_width="138dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="32dp"
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnPost" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSearch"
+        app:layout_constraintEnd_toStartOf="@+id/btnSearch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/btnPost">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchTxt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Search..." />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onCreatePostClicked"
+        android:text="create Post"
+        app:layout_constraintStart_toEndOf="@+id/btnHome"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onHomeClicked"
+        android:text="Home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/filterSpinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnPost"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
