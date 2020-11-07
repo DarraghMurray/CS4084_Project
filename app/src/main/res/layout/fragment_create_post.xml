@@ -8,11 +8,10 @@
     tools:context=".CreatePost">
 
     <Button
-        android:id="@+id/postButton"
+        android:id="@+id/Post"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
-        android:onClick="onPostClicked"
         android:text="Post"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

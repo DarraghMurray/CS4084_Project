@@ -8,13 +8,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +43,6 @@ public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClic
     private String mParam2;
 
     MyRecyclerViewAdapter adapter;
-    private RecyclerView itemFeed;
 
     public MainFeed() {
         // Required empty public constructor
@@ -77,28 +86,36 @@ public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClic
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<String> names = getNamesList();
-        itemFeed = view.findViewById(R.id.itemFeed);
+        RecyclerView itemFeed = view.findViewById(R.id.itemFeed);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final ArrayList<Map<String, Object>> items = new ArrayList<>();
+
+        db.collection("posts").orderBy("TimeStamp", Query.Direction.ASCENDING)
+                .limitToLast(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    int i = 0;
+                    for(QueryDocumentSnapshot document: task.getResult()) {
+                        items.add(document.getData());
+                    }
+                }else {
+                    Log.w("tag", "Error getting documents",  task.getException());
+                }
+            }
+        });
 
         itemFeed.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MyRecyclerViewAdapter(getContext(), names);
+        adapter = new MyRecyclerViewAdapter(getContext(), items);
         adapter.setClickListener(this);
         itemFeed.setAdapter(adapter);
     }
-        private List<String> getNamesList() {
-            List<String> names = new ArrayList<>();
-
-            char a = 'a';
-
-            for (int i = 0; i < 26; i++) {
-                names.add(Character.toString(a));
-                a += 1;
-            }
-            return names;
-        }
 
     public void onItemClick(View view, int position) {
         Toast.makeText( getActivity(),"you clicked " + adapter.getItem(position) + " on row number"
                 + position, Toast.LENGTH_SHORT).show();
     }
+
+
 }
