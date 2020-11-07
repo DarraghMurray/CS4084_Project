@@ -49,8 +49,8 @@ public class logIn extends AppCompatActivity {
                         + user.getDisplayName() + "\nemail = " + user.getEmail() +
                         "\nid = " + user.getUid() );
                 Intent toMainActiv = new Intent(this, MainActivity.class);
-                finish();
                 startActivity(toMainActiv);
+                finish();
             } else {
                 if (response == null) {
                     System.out.println("sign in cancelled"); return;
