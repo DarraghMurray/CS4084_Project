@@ -105,6 +105,8 @@ public class MainFeed extends Fragment  {
 
         adapter = new FirestoreRecyclerAdapter<Item, ItemHolder>(options) {
 
+
+
             @Override
             public void onBindViewHolder( @NonNull ItemHolder holder, int position, @NonNull Item item) {
                     holder.nameTxtView.setText(item.getName());
