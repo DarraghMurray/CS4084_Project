@@ -19,7 +19,9 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -98,12 +100,11 @@ public class CreatePost extends Fragment {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                     CollectionReference posts = db.collection("posts");
-                    Map<String, Object> currentMessage = new HashMap<>();
-                    currentMessage.put("ItemName", textInputName.getEditText().getText().toString());
-                    currentMessage.put("ItemDescription", textInputDescription.getEditText().getText().toString());
-                    currentMessage.put("ItemPrice", textInputPrice.getEditText().getText().toString());
-                    currentMessage.put("TimeStamp", System.currentTimeMillis());
-                    posts.document().set(currentMessage);
+                    Item item = new Item();
+                    item.setName(textInputName.getEditText().getText().toString());
+                    item.setDescription(textInputDescription.getEditText().getText().toString());
+                    item.setPrice(Integer.parseInt(textInputPrice.getEditText().getText().toString()));
+                    posts.document().set(item);
 
                     MainFeed newFragment = new MainFeed();
                     FragmentTransaction ft = getFragmentManager().beginTransaction();

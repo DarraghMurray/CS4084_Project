@@ -8,30 +8,25 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MainFeed#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClickListener {
+public class MainFeed extends Fragment  {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,7 +37,7 @@ public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClic
     private String mParam1;
     private String mParam2;
 
-    MyRecyclerViewAdapter adapter;
+    private FirestoreRecyclerAdapter adapter;
 
     public MainFeed() {
         // Required empty public constructor
@@ -75,6 +70,16 @@ public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClic
         }
     }
 
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    public void onStop() {
+        super.onStop();
+        adapter.startListening();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,34 +87,51 @@ public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClic
         return inflater.inflate(R.layout.fragment_main_feed, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView itemFeed = view.findViewById(R.id.itemFeed);
+        itemFeed.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final ArrayList<Map<String, Object>> items = new ArrayList<>();
 
-        db.collection("posts").orderBy("TimeStamp", Query.Direction.ASCENDING)
-                .limitToLast(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        Query query = db.collection("posts").orderBy("timeStamp").limit(20);
+
+        FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
+                .setQuery(query, Item.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<Item, ItemHolder>(options) {
+
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    int i = 0;
-                    for(QueryDocumentSnapshot document: task.getResult()) {
-                        items.add(document.getData());
-                    }
-                }else {
-                    Log.w("tag", "Error getting documents",  task.getException());
-                }
+            public void onBindViewHolder( @NonNull ItemHolder holder, int position, @NonNull Item item) {
+                    holder.nameTxtView.setText(item.getName());
+                    holder.descriptionTxtView.setText(item.getDescription());
+                    holder.priceTxtView.setText(Integer.toString(item.getPrice()));
             }
-        });
 
-        itemFeed.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MyRecyclerViewAdapter(getContext(), items);
-        adapter.setClickListener(this);
+            @Override
+            public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                // Using a custom layout called R.layout.message for each item, we create a new instance of the viewholder
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.recyclerview_rows, parent, false);
+
+                return new ItemHolder(view);
+            }
+        };
+
         itemFeed.setAdapter(adapter);
+    }
+
+    private ArrayList<String> getNamesList() {
+        ArrayList<String> names = new ArrayList<>();
+        char a = 'a';
+        for(int i = 0; i < 26; i++) {
+            names.add(Character.toString(a++));
+        }
+        return names;
     }
 
     public void onItemClick(View view, int position) {
