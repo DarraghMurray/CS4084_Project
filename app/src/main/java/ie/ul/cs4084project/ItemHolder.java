@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ItemHolder extends RecyclerView.ViewHolder {
+public class ItemHolder extends RecyclerView.ViewHolder  {
 
     TextView nameTxtView;
     TextView descriptionTxtView;
@@ -19,4 +19,5 @@ public class ItemHolder extends RecyclerView.ViewHolder {
         descriptionTxtView = itemView.findViewById(R.id.descriptionTxtView);
         priceTxtView = itemView.findViewById(R.id.priceTxtView);
     }
+
 }
