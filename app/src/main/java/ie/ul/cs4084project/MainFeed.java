@@ -92,7 +92,7 @@ public class MainFeed extends Fragment  {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView itemFeed = view.findViewById(R.id.itemFeed);
+        final RecyclerView itemFeed = view.findViewById(R.id.itemFeed);
         itemFeed.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -106,12 +106,11 @@ public class MainFeed extends Fragment  {
         adapter = new FirestoreRecyclerAdapter<Item, ItemHolder>(options) {
 
 
-
             @Override
             public void onBindViewHolder( @NonNull ItemHolder holder, int position, @NonNull Item item) {
                     holder.nameTxtView.setText(item.getName());
                     holder.descriptionTxtView.setText(item.getDescription());
-                    holder.priceTxtView.setText(Integer.toString(item.getPrice()));
+                    holder.priceTxtView.setText(Double.toString(item.getPrice()));
             }
 
             @Override
