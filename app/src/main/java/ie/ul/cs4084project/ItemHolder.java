@@ -16,6 +16,7 @@ public class ItemHolder extends RecyclerView.ViewHolder  {
     TextView nameTxtView;
     TextView descriptionTxtView;
     TextView priceTxtView;
+    TextView priceSign;
 
     public ItemHolder(@NonNull final View itemView) {
         super(itemView);
@@ -23,6 +24,7 @@ public class ItemHolder extends RecyclerView.ViewHolder  {
         nameTxtView = itemView.findViewById(R.id.nameTxtView);
         descriptionTxtView = itemView.findViewById(R.id.descriptionTxtView);
         priceTxtView = itemView.findViewById(R.id.priceTxtView);
+        priceSign = itemView.findViewById(R.id.priceSign);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +34,7 @@ public class ItemHolder extends RecyclerView.ViewHolder  {
                 Bundle args = new Bundle();
                 args.putString("ItemName", nameTxtView.getText().toString());
                 args.putString("ItemDescription", descriptionTxtView.getText().toString());
+                args.putString("ItemSign", (String) priceSign.getText());
                 args.putDouble("ItemPrice", Double.parseDouble(priceTxtView.getText().toString()));
                 fragment.setArguments(args);
                 FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
