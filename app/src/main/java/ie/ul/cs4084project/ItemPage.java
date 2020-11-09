@@ -2,11 +2,17 @@ package ie.ul.cs4084project;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +29,10 @@ public class ItemPage extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private TextView itemTitle;
+    private TextView itemDescrip;
+    private TextView itemPricing;
 
     public ItemPage() {
         // Required empty public constructor
@@ -60,5 +70,19 @@ public class ItemPage extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_item_page, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        itemTitle = view.findViewById(R.id.itemTitle);
+        itemDescrip = view.findViewById(R.id.itemDescrip);
+        itemPricing = view.findViewById(R.id.itemPricing);
+
+
+        itemTitle.setText(getArguments().getString("ItemName"));
+        itemDescrip.setText(getArguments().getString("ItemDescription"));
+        itemPricing.setText(Double.toString(getArguments().getDouble("ItemPrice")));
     }
 }

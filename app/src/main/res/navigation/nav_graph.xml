@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFeed2">
+
+    <fragment
+        android:id="@+id/mainFeed2"
+        android:name="ie.ul.cs4084project.MainFeed"
+        android:label="fragment_main_feed"
+        tools:layout="@layout/fragment_main_feed" >
+        <action
+            android:id="@+id/action_mainFeed2_to_itemPage2"
+            app:destination="@id/itemPage2" />
+        <action
+            android:id="@+id/action_mainFeed2_to_findItem2"
+            app:destination="@id/findItem2" />
+        <action
+            android:id="@+id/action_mainFeed2_to_createPost22"
+            app:destination="@id/createPost2" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPost2"
+        android:name="ie.ul.cs4084project.CreatePost"
+        android:label="fragment_create_post"
+        tools:layout="@layout/fragment_create_post" >
+        <action
+            android:id="@+id/action_createPost2_to_mainFeed2"
+            app:destination="@id/mainFeed2" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemPage2"
+        android:name="ie.ul.cs4084project.ItemPage"
+        android:label="fragment_item_page"
+        tools:layout="@layout/fragment_item_page" >
+        <action
+            android:id="@+id/action_itemPage2_to_mainFeed2"
+            app:destination="@id/mainFeed2" />
+        <action
+            android:id="@+id/action_itemPage2_to_purchaseScreen2"
+            app:destination="@id/purchaseScreen2" />
+    </fragment>
+    <fragment
+        android:id="@+id/messageScreen2"
+        android:name="ie.ul.cs4084project.MessageScreen"
+        android:label="fragment_message_screen"
+        tools:layout="@layout/fragment_message_screen" >
+        <action
+            android:id="@+id/action_messageScreen2_to_itemPage2"
+            app:destination="@id/itemPage2" />
+        <action
+            android:id="@+id/action_messageScreen2_to_mainFeed2"
+            app:destination="@id/mainFeed2" />
+    </fragment>
+    <fragment
+        android:id="@+id/findItem2"
+        android:name="ie.ul.cs4084project.FindItem"
+        android:label="fragment_find_item"
+        tools:layout="@layout/fragment_find_item" >
+        <action
+            android:id="@+id/action_findItem2_to_mainFeed2"
+            app:destination="@id/mainFeed2" />
+    </fragment>
+    <fragment
+        android:id="@+id/purchaseScreen2"
+        android:name="ie.ul.cs4084project.PurchaseScreen"
+        android:label="fragment_purchase_screen"
+        tools:layout="@layout/fragment_purchase_screen" >
+        <action
+            android:id="@+id/action_purchaseScreen2_to_mainFeed2"
+            app:destination="@id/mainFeed2" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_createPost2"
+        app:destination="@id/mainFeed2" />
+    <action
+        android:id="@+id/action_global_createPost22"
+        app:destination="@id/createPost2" />
+    <action
+        android:id="@+id/action_global_mainFeed2"
+        app:destination="@id/mainFeed2" />
+</navigation>

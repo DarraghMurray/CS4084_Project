@@ -11,17 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MainFeed#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClickListener {
+public class MainFeed extends Fragment  {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,8 +37,7 @@ public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClic
     private String mParam1;
     private String mParam2;
 
-    MyRecyclerViewAdapter adapter;
-    private RecyclerView itemFeed;
+    private FirestoreRecyclerAdapter adapter;
 
     public MainFeed() {
         // Required empty public constructor
@@ -66,6 +70,16 @@ public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClic
         }
     }
 
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    public void onStop() {
+        super.onStop();
+        adapter.startListening();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,26 +87,50 @@ public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClic
         return inflater.inflate(R.layout.fragment_main_feed, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<String> names = getNamesList();
-        itemFeed = view.findViewById(R.id.itemFeed);
-
+        final RecyclerView itemFeed = view.findViewById(R.id.itemFeed);
         itemFeed.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MyRecyclerViewAdapter(getContext(), names);
-        adapter.setClickListener(this);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Query query = db.collection("posts").orderBy("timeStamp").limit(20);
+
+        FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
+                .setQuery(query, Item.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<Item, ItemHolder>(options) {
+
+
+            @Override
+            public void onBindViewHolder( @NonNull ItemHolder holder, int position, @NonNull Item item) {
+                    holder.nameTxtView.setText(item.getName());
+                    holder.descriptionTxtView.setText(item.getDescription());
+                    holder.priceTxtView.setText(Double.toString(item.getPrice()));
+            }
+
+            @Override
+            public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                // Using a custom layout called R.layout.message for each item, we create a new instance of the viewholder
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.recyclerview_rows, parent, false);
+
+                return new ItemHolder(view);
+            }
+        };
+
         itemFeed.setAdapter(adapter);
     }
-    private List<String> getNamesList() {
-        List<String> names = new ArrayList<>();
 
+    private ArrayList<String> getNamesList() {
+        ArrayList<String> names = new ArrayList<>();
         char a = 'a';
-
-        for (int i = 0; i < 26; i++) {
-            names.add(Character.toString(a));
-            a += 1;
+        for(int i = 0; i < 26; i++) {
+            names.add(Character.toString(a++));
         }
         return names;
     }
@@ -101,4 +139,6 @@ public class MainFeed extends Fragment implements MyRecyclerViewAdapter.ItemClic
         Toast.makeText( getActivity(),"you clicked " + adapter.getItem(position) + " on row number"
                 + position, Toast.LENGTH_SHORT).show();
     }
+
+
 }

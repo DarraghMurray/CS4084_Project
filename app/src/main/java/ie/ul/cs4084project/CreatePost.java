@@ -5,15 +5,23 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,25 +91,28 @@ public class CreatePost extends Fragment {
         textInputName = view.findViewById(R.id.TextInputName);
         textInputDescription = view.findViewById(R.id.TextInputDescription);
         textInputPrice = view.findViewById(R.id.TextInputPrice);
-    }
 
-    // adds post data to database and exits CreatePost fragment
-    // not sure on adding images yet
-    public void onPostClicked(View view) {
+        Button Post = view.findViewById(R.id.Post);
+        Post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validateName() && validateDescription() && validatePrice()) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        if(validateName() && validateDescription() && validatePrice()) {
+                    CollectionReference posts = db.collection("posts");
+                    Item item = new Item();
+                    item.setName(textInputName.getEditText().getText().toString());
+                    item.setDescription(textInputDescription.getEditText().getText().toString());
+                    item.setPrice(Integer.parseInt(textInputPrice.getEditText().getText().toString()));
+                    posts.document().set(item);
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-            CollectionReference posts = db.collection("Posts");
-            Map<String,Object> currentPost = new HashMap<>();
-            currentPost.put("ItemName", textInputName.getEditText().getText().toString());
-            currentPost.put("ItemDescription", textInputDescription.getEditText().getText().toString());
-            currentPost.put("ItemPrice", textInputPrice.getEditText().getText().toString());
-            currentPost.put("TimeStamp", System.currentTimeMillis());
-            posts.document().set(currentPost);
-        }
-
+                    MainFeed newFragment = new MainFeed();
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment, newFragment);
+                    ft.commit();
+                }
+            }
+        });
     }
 
     //these three methods validate the post input
