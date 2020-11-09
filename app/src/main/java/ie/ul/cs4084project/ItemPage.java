@@ -33,6 +33,7 @@ public class ItemPage extends Fragment {
     private TextView itemTitle;
     private TextView itemDescrip;
     private TextView itemPricing;
+    private TextView itemSign;
 
     public ItemPage() {
         // Required empty public constructor
@@ -79,10 +80,12 @@ public class ItemPage extends Fragment {
         itemTitle = view.findViewById(R.id.itemTitle);
         itemDescrip = view.findViewById(R.id.itemDescrip);
         itemPricing = view.findViewById(R.id.itemPricing);
+        itemSign = view.findViewById(R.id.itemSign);
 
 
         itemTitle.setText(getArguments().getString("ItemName"));
         itemDescrip.setText(getArguments().getString("ItemDescription"));
         itemPricing.setText(Double.toString(getArguments().getDouble("ItemPrice")));
+        itemSign.setText("€");
     }
 }
