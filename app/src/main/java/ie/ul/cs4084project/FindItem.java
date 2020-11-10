@@ -2,11 +2,20 @@ package ie.ul.cs4084project;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +32,8 @@ public class FindItem extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FirestoreRecyclerAdapter adapter;
 
     public FindItem() {
         // Required empty public constructor
@@ -60,5 +71,41 @@ public class FindItem extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_find_item, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView itemSearchFeed= view.findViewById(R.id.itemSearchFeed);
+        itemSearchFeed.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Query query = db.collection("posts").orderBy("timeStamp").limit(20);
+
+        FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
+                .setQuery(query, Item.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<Item, ItemHolder>(options) {
+
+            @Override
+            public void onBindViewHolder( @NonNull ItemHolder holder, int position, @NonNull Item item) {
+                holder.nameTxtView.setText(item.getName());
+                holder.descriptionTxtView.setText(item.getDescription());
+                holder.priceTxtView.setText(Double.toString(item.getPrice()));
+            }
+
+            @Override
+            public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                // Using a custom layout called R.layout.message for each item, we create a new instance of the viewholder
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.recyclerview_rows, parent, false);
+
+                return new ItemHolder(view);
+            }
+        };
+        itemSearchFeed.setAdapter(adapter);
     }
 }
