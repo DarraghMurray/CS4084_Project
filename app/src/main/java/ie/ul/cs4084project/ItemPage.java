@@ -110,7 +110,12 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         if(mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
-            mMapView.getMapAsync(null);
+            mMapView.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    mGoogleMap = googleMap;
+                }
+            });
         }
     }
 
