@@ -92,7 +92,7 @@ public class MainFeed extends Fragment  {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final RecyclerView itemFeed = view.findViewById(R.id.itemFeed);
+        RecyclerView itemFeed = view.findViewById(R.id.itemFeed);
         itemFeed.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
