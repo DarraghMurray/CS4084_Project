@@ -1,9 +1,12 @@
 package ie.ul.cs4084project;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -12,14 +15,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import org.w3c.dom.Text;
+
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ItemPage#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ItemPage extends Fragment {
+public class ItemPage extends Fragment implements OnMapReadyCallback {
+
+    public MapView mMapView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,6 +50,8 @@ public class ItemPage extends Fragment {
     private TextView itemDescrip;
     private TextView itemPricing;
     private TextView itemSign;
+    GoogleMap mGoogleMap;
+    View mview;
 
     public ItemPage() {
         // Required empty public constructor
@@ -69,8 +87,8 @@ public class ItemPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_item_page, container, false);
+        mview = inflater.inflate(R.layout.fragment_item_page, container, false);
+        return mview;
     }
 
     @Override
@@ -87,5 +105,27 @@ public class ItemPage extends Fragment {
         itemDescrip.setText(getArguments().getString("ItemDescription"));
         itemPricing.setText(Double.toString(getArguments().getDouble("ItemPrice")));
         itemSign.setText("€");
+
+        mMapView = (MapView) mview.findViewById(R.id.map);
+        if(mMapView != null) {
+            mMapView.onCreate(null);
+            mMapView.onResume();
+            mMapView.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    mGoogleMap = googleMap;
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        MapsInitializer.initialize(getContext());
+        mGoogleMap = googleMap;
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(52.673872, -8.575679)).title("Limerick"));
+        CameraPosition Limerick = CameraPosition.builder().target(new LatLng(52.673872, -8.575679)).zoom(16).bearing(0).tilt(50).build();
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Limerick));
     }
 }
