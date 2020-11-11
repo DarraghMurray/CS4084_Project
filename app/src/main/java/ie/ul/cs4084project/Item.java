@@ -1,6 +1,5 @@
 package ie.ul.cs4084project;
 
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;

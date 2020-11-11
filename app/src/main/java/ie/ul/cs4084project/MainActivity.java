@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSearchClicked(View view) {
-        FindItem newFragment = new FindItem();
+       /* FindItem newFragment = new FindItem();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         Bundle args = new Bundle();
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         newFragment.setArguments(args);
 
         ft.replace(R.id.fragment, newFragment);
-        ft.commit();
+        ft.commit(); */
 
     }
 
