@@ -6,23 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="407dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        app:navGraph="@navigation/navgraph" />
-
-
     <Button
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
@@ -34,7 +17,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputSearch"
-        android:id="@+id/textInputLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/btnSearch"
@@ -69,7 +51,6 @@
 
     <Spinner
         android:id="@+id/categorySpinner"
-        android:id="@+id/filterSpinner"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btnSearch"
