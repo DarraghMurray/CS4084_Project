@@ -36,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    public void onMessageClicked(View view) {
+
+    }
+
     public void onSearchClicked(View view) {
        /* FindItem newFragment = new FindItem();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
