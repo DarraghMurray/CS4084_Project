@@ -9,7 +9,6 @@ import android.widget.Spinner;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class MainActivity extends AppCompatActivity {
-
     private TextInputLayout textInputSearch;
     private Spinner categorySpinner;
 
@@ -22,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         categorySpinner = findViewById(R.id.categorySpinner);
     }
 
-    public void onHomeClicked(View view){
+    public void onHomeClicked(View view) {
 
         MainFeed newFragment = new MainFeed();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -35,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment, newFragment);
         ft.commit();
+    }
+
+    public void onMessageClicked(View view) {
+
     }
 
     public void onSearchClicked(View view) {
