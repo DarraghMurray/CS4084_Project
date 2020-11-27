@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -92,6 +93,7 @@ public class MainFeed extends Fragment  {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView itemFeed = view.findViewById(R.id.itemFeed);
+        final RecyclerView itemFeed = view.findViewById(R.id.itemFeed);
         itemFeed.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

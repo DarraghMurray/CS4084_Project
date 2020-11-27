@@ -1,12 +1,16 @@
 package ie.ul.cs4084project;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +26,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,6 +103,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         itemDescrip = view.findViewById(R.id.itemDescrip);
         itemPricing = view.findViewById(R.id.itemPricing);
         itemSign = view.findViewById(R.id.itemSign);
+
         purchase = view.findViewById(R.id.btnPurchase);
 
         purchase.setOnClickListener(new View.OnClickListener() {
@@ -114,8 +122,11 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         itemPricing.setText(Double.toString(getArguments().getDouble("ItemPrice")));
         itemSign.setText("€");
 
+
         mMapView = (MapView) mview.findViewById(R.id.map);
         if (mMapView != null) {
+        mMapView = (MapView) mview.findViewById(R.id.user_list_map);
+        if(mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
             mMapView.getMapAsync(new OnMapReadyCallback() {
