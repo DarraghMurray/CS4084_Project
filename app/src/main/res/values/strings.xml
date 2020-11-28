@@ -13,4 +13,9 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="google_map_api_key">AIzaSyC_Epve3szsK-sWLU-snsUlp3iWWmT8f7Q</string>
+    <string-array name="categories">
+        <item>-select a category-</item>
+        <item>Phone</item>
+        <item>Laptop</item>
+    </string-array>
 </resources>

@@ -1,5 +1,6 @@
 package ie.ul.cs4084project;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +36,7 @@ public class CreatePost extends Fragment {
     private TextInputLayout textInputName;
     private TextInputLayout textInputDescription;
     private TextInputLayout textInputPrice;
+    private Spinner categorySpinner;
 
     public CreatePost() {
         // Required empty public constructor
@@ -78,12 +83,13 @@ public class CreatePost extends Fragment {
         textInputName = view.findViewById(R.id.TextInputName);
         textInputDescription = view.findViewById(R.id.TextInputDescription);
         textInputPrice = view.findViewById(R.id.TextInputPrice);
+        categorySpinner = view.findViewById(R.id.categorySpinner);
 
         Button Post = view.findViewById(R.id.Post);
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateName() && validateDescription() && validatePrice()) {
+                if(validateName() && validateDescription() && validatePrice() && validateCategory()) {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                     CollectionReference posts = db.collection("posts");
@@ -91,6 +97,7 @@ public class CreatePost extends Fragment {
                     item.setName(textInputName.getEditText().getText().toString());
                     item.setDescription(textInputDescription.getEditText().getText().toString());
                     item.setPrice(Integer.parseInt(textInputPrice.getEditText().getText().toString()));
+                    item.setCategory(categorySpinner.getSelectedItem().toString());
                     posts.document().set(item);
 
                     MainFeed newFragment = new MainFeed();
@@ -100,6 +107,18 @@ public class CreatePost extends Fragment {
                 }
             }
         });
+    }
+
+    private boolean validateCategory() {
+        if(categorySpinner.getSelectedItem().toString().equals("-select a category-")) {
+            TextView errorText = (TextView)categorySpinner.getSelectedItem();
+            errorText.setError("must select a category");
+            errorText.setTextColor(Color.RED);
+            errorText.setText("must select a category");
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //these three methods validate the post input

@@ -55,6 +55,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="300dp"
+        android:entries="@array/categories"
         app:layout_constraintBottom_toTopOf="@+id/fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
