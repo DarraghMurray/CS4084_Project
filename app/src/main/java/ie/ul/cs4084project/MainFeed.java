@@ -74,7 +74,7 @@ public class MainFeed extends Fragment  {
 
     public void onStop() {
         super.onStop();
-        adapter.startListening();
+        adapter.stopListening();
     }
 
     @Override
@@ -121,15 +121,6 @@ public class MainFeed extends Fragment  {
         };
 
         itemFeed.setAdapter(adapter);
-    }
-
-    private ArrayList<String> getNamesList() {
-        ArrayList<String> names = new ArrayList<>();
-        char a = 'a';
-        for(int i = 0; i < 26; i++) {
-            names.add(Character.toString(a++));
-        }
-        return names;
     }
 
     public void onItemClick(View view, int position) {

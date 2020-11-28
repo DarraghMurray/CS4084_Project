@@ -66,6 +66,16 @@ public class FindItem extends Fragment {
         }
     }
 
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,7 +92,7 @@ public class FindItem extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Query query = db.collection("posts").orderBy("timeStamp").limit(20);
+        Query query = db.collection("posts").whereEqualTo("category",getArguments().getString("Category"));
 
         FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
                 .setQuery(query, Item.class)
