@@ -11,8 +11,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="411dp"
-        android:layout_height="628dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="70dp"
@@ -26,10 +26,10 @@
 
     <Button
         android:id="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="212dp"
-        android:background="@android:drawable/ic_search"
+        android:background="@drawable/search_icon"
         android:onClick="onSearchClicked"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +37,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputSearch"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/btnSearch"
         app:layout_constraintEnd_toStartOf="@+id/btnSearch"
         app:layout_constraintStart_toStartOf="parent"

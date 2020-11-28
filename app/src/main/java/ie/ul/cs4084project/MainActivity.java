@@ -3,6 +3,7 @@ package ie.ul.cs4084project;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -41,17 +42,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSearchClicked(View view) {
-       /* FindItem newFragment = new FindItem();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-        Bundle args = new Bundle();
-        args.putString("searchTxt", textInputSearch.getEditText().getText().toString());
-        args.putString("Category", categorySpinner.getSelectedItem().toString());
-        newFragment.setArguments(args);
-
-        ft.replace(R.id.fragment, newFragment);
-        ft.commit(); */
-
+        if(!categorySpinner.getSelectedItem().toString().equals("-select a category-")) {
+            FindItem newFragment = new FindItem();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            Bundle args = new Bundle();
+            args.putString("Category", categorySpinner.getSelectedItem().toString());
+            newFragment.setArguments(args);
+            ft.replace(R.id.fragment, newFragment);
+            ft.commit();
+        }
     }
-
 }

@@ -32,6 +32,6 @@ public class Item {
     public void setName(String name) { this.name = name; }
     public void setDescription(String description) { this.description = description; }
     public void setPrice(double price){ this.price = price; }
-    public void setCategory(String catrgory){ this.category = category;}
+    public void setCategory(String category){ this.category = category;}
     public void setTimeStamp(Date timeStamp) { this.timeStamp = timeStamp; }
 }
