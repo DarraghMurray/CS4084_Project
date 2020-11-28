@@ -11,8 +11,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="407dp"
-        android:layout_height="0dp"
+        android:layout_width="411dp"
+        android:layout_height="628dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="70dp"
@@ -54,48 +54,56 @@
         android:id="@+id/categorySpinner"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="300dp"
         android:entries="@array/categories"
         app:layout_constraintBottom_toTopOf="@+id/fragment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSearch"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnHome"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@android:drawable/presence_online"
+        android:layout_width="107dp"
+        android:layout_height="59dp"
+        android:background="@drawable/home_button_icon_icons_com_72700"
         android:onClick="onHomeClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnPost"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btnPost"
-        android:layout_width="104dp"
-        android:layout_height="70dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="22dp"
-        android:background="@android:drawable/ic_input_add"
+        android:layout_width="98dp"
+        android:layout_height="61dp"
+        android:background="@drawable/plus_circle_new_create_icon_145948"
         android:onClick="onCreatePostClicked"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnHome"
-        app:layout_constraintTop_toBottomOf="@+id/fragment"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintStart_toEndOf="@+id/btnHome" />
 
     <Button
         android:id="@+id/btnMessage"
-        android:layout_width="148dp"
-        android:layout_height="69dp"
+        android:layout_width="101dp"
+        android:layout_height="59dp"
         android:layout_marginBottom="1dp"
-        android:background="@android:drawable/ic_menu_send"
+        android:background="@drawable/messagebubble_122052"
+        android:drawablePadding="100dp"
         android:onClick="onMessageClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/btnPost"
-        app:layout_constraintTop_toBottomOf="@+id/fragment" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="99dp"
+        android:layout_height="60dp"
+        android:text="Spare button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnMessage"
+        app:layout_constraintStart_toEndOf="@+id/btnPost" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
