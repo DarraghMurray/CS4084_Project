@@ -1,12 +1,11 @@
 package ie.ul.cs4084project;
 
+import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.type.Color;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -113,10 +111,13 @@ public class CreatePost extends Fragment {
 
     private boolean validateCategory() {
         if(categorySpinner.getSelectedItem().toString().equals("-select a category-")) {
-            TextView category = (TextView)categorySpinner.getSelectedItem();
-            category.setError("must select a category");
-            category.setTextColor(Color.RED_FIELD_NUMBER);
-            category.setText("must select a category");
+            TextView errorText = (TextView)categorySpinner.getSelectedItem();
+            errorText.setError("must select a category");
+            errorText.setTextColor(Color.RED);
+            errorText.setText("must select a category");
+            return false;
+        } else {
+            return true;
         }
     }
 
