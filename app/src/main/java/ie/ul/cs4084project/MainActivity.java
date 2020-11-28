@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onMessageClicked(View view) {
-
+        
     }
 
     public void onSearchClicked(View view) {
