@@ -12,4 +12,12 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string-array name="categories">
+        <item>-select a category-</item>
+        <item>Phone</item>
+        <item>Laptop</item>
+        <item>TV</item>
+        <item>Tablet</item>
+        <item>Camera</item>
+    </string-array>
 </resources>
