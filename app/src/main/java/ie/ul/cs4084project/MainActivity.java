@@ -16,9 +16,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textInputSearch = findViewById(R.id.textInputSearch);
+        categorySpinner = findViewById(R.id.categorySpinner);
     }
 
-    public void onHomeClicked(View view){
+    public void onHomeClicked(View view) {
+
         MainFeed newFragment = new MainFeed();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment, newFragment);
@@ -32,8 +36,12 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    public void onMessageClicked(View view) {
+
+    }
+
     public void onSearchClicked(View view) {
-        FindItem newFragment = new FindItem();
+       /* FindItem newFragment = new FindItem();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         Bundle args = new Bundle();
@@ -42,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         newFragment.setArguments(args);
 
         ft.replace(R.id.fragment, newFragment);
-        ft.commit();
+        ft.commit(); */
 
     }
+
 }
