@@ -18,4 +18,5 @@
         <item>Phones</item>
         <item>Laptops</item>
     </string-array>
+    <string name="title_activity_login">LoginActivity</string>
 </resources>

@@ -3,4 +3,8 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="colorRed">#FFdd3131</color>
+    <color name="colorDarkRed">#FFd81717</color>
+    <color name="colorYellow">#FFfdff27</color>
+    <color name="actionBarColor">#FF1de0dd</color>
 </resources>
