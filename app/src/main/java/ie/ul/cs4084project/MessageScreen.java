@@ -1,12 +1,18 @@
 package ie.ul.cs4084project;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +29,9 @@ public class MessageScreen extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Button sendEmail;
+    private TextInputLayout textInputTo, textInputSubject, textInputBody;
 
     public MessageScreen() {
         // Required empty public constructor
@@ -53,6 +62,7 @@ public class MessageScreen extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -60,5 +70,35 @@ public class MessageScreen extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_message_screen, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        textInputTo = view.findViewById(R.id.textInputTo);
+        textInputSubject = view.findViewById(R.id.textInputSubject);
+        textInputBody = view.findViewById(R.id.textInputBody);
+
+        sendEmail = view.findViewById(R.id.Send);
+        sendEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String emailsend = textInputTo.getEditText().getText().toString();
+                String emailsubject = textInputSubject.getEditText().getText().toString();
+                String emailbody = textInputBody.getEditText().getText().toString();
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+
+                intent.putExtra(Intent.EXTRA_EMAIL,
+                        new String[] { emailsend });
+                intent.putExtra(Intent.EXTRA_SUBJECT, emailsubject);
+                intent.putExtra(Intent.EXTRA_TEXT, emailbody);
+
+                intent.setType("message/rfc822");
+
+                startActivity(Intent.createChooser(intent, "Choose an Email client :"));
+            }});
+
     }
 }
