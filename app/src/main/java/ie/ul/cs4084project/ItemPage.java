@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import org.w3c.dom.Text;
-import java.util.Map;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +34,7 @@ import java.util.Map;
 public class ItemPage extends Fragment implements OnMapReadyCallback {
 
     public MapView mMapView;
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -104,7 +108,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment, newFragment);
                 ft.commit();
-            }
+                }
         });
 
 
@@ -112,16 +116,28 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         itemDescrip.setText(getArguments().getString("ItemDescription"));
         itemPricing.setText(Double.toString(getArguments().getDouble("ItemPrice")));
         itemSign.setText("€");
-
-
+        ;
         mMapView = (MapView) mview.findViewById(R.id.map);
         if (mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
             mMapView.getMapAsync(new OnMapReadyCallback() {
                 @Override
-                public void onMapReady(GoogleMap googleMap) {
-                    mGoogleMap = googleMap;
+                public void onMapReady(GoogleMap gMap) {
+                    mGoogleMap = gMap;
+                    mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(latLng);
+                            markerOptions.title(latLng.latitude+ " : " + latLng.longitude);
+                            mGoogleMap.clear();
+                            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
+                            mGoogleMap.addMarker(markerOptions);
+                        }
+                    });
+
+
                 }
             });
         }
