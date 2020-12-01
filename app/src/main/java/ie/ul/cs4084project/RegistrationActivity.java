@@ -35,7 +35,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     "(?=.*[0-9])" +
                     "(?=.*[A-Z])" +
                     "(?=.*[a-zA-Z])" +
-                    "(?=.*[@#$%^&+=])" +
                     "(?=\\S+$)" +
                     ".{6,}" +
                     "$");
