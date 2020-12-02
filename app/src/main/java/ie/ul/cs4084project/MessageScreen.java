@@ -100,5 +100,8 @@ public class MessageScreen extends Fragment {
                 startActivity(Intent.createChooser(intent, "Choose an Email client :"));
             }});
 
+            textInputTo.getEditText().getText().clear();
+            textInputSubject.getEditText().getText().clear();
+            textInputBody.getEditText().getText().clear();
     }
 }
