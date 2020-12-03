@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,11 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +34,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class ItemPage extends Fragment implements OnMapReadyCallback {
 
     public MapView mMapView;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,7 +51,6 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     private Button purchase;
     GoogleMap mGoogleMap;
     View mview;
-
     public ItemPage() {
         // Required empty public constructor
     }
@@ -87,7 +93,6 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         itemTitle = view.findViewById(R.id.itemTitle);
         itemDescrip = view.findViewById(R.id.itemDescrip);
         itemPricing = view.findViewById(R.id.itemPricing);
@@ -102,6 +107,25 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
                 ft.replace(R.id.fragment, newFragment);
                 ft.commit();
                 }
+        });
+
+        purchase.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //"Item ID" is the auto-generated ID from firestore, was unable to retrieve
+                FirebaseFirestore.getInstance().collection("posts").document("Item ID").delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "onSuccess: Deleted document");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: Failed to delete", e);
+                            }
+                        });
+            }
         });
 
         itemTitle.setText(getArguments().getString("ItemName"));

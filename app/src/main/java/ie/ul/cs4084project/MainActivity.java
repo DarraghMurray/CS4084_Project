@@ -61,19 +61,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void onDeletePostPressed(View view) {
-        FirebaseFirestore.getInstance().collection("posts").document("Fv3JfSlCwX2N5oCtv7lV").delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "onSuccess: Deleted document");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: Failed to delete", e);
-                    }
-                });
-    }
 }
