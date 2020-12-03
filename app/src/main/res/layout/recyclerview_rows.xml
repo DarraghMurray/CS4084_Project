@@ -23,11 +23,11 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:contentDescription="item image"
                 app:layout_constraintBottom_toBottomOf="@+id/priceTxtView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@tools:sample/avatars"
+                android:contentDescription="@string/item_image" />
 
             <TextView
                 android:id="@+id/nameTxtView"
@@ -66,7 +66,7 @@
                 android:layout_height="19dp"
                 android:layout_marginStart="1dp"
                 android:layout_marginBottom="2dp"
-                android:text="€"
+                android:text="@string/Euro"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/priceTxtView"
                 app:layout_constraintStart_toEndOf="@+id/imageView" />
