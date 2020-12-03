@@ -49,7 +49,7 @@
             android:id="@+id/searchTxt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Search..." />
+            android:hint="@string/search..." />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
@@ -105,7 +105,6 @@
         android:id="@+id/button2"
         android:layout_width="96dp"
         android:layout_height="54dp"
-        android:text="Spare button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnMessage"
         app:layout_constraintStart_toEndOf="@+id/btnPost"

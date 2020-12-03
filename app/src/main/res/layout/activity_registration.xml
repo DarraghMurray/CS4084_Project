@@ -13,13 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/actionBarColor"
-        android:text="Register new account" />
+        android:text="@string/register_new_account" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="enter your username..."
+        android:hint="@string/enter_your_username"
         app:counterEnabled="true"
         app:counterMaxLength="20"
         app:errorEnabled="true">
@@ -33,7 +33,7 @@
         android:id="@+id/textInputEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="enter your email..."
+        android:hint="@string/enter_your_email"
         app:counterEnabled="false"
         app:errorEnabled="true">
 
@@ -46,7 +46,7 @@
         android:id="@+id/textInputPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="enter your password..."
+        android:hint="@string/enter_your_password"
         app:counterEnabled="false"
         app:errorEnabled="true">
 
@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_background"
-        android:text="Register"
+        android:text="@string/register"
         android:textStyle="bold" />
 
     <ProgressBar
