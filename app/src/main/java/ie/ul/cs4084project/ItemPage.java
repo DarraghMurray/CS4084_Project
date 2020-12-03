@@ -16,7 +16,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,7 +28,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class ItemPage extends Fragment implements OnMapReadyCallback {
 
     public MapView mMapView;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -106,7 +104,6 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
                 }
         });
 
-
         itemTitle.setText(getArguments().getString("ItemName"));
         itemDescrip.setText(getArguments().getString("ItemDescription"));
         itemPricing.setText(Double.toString(getArguments().getDouble("ItemPrice")));
@@ -143,8 +140,5 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         MapsInitializer.initialize(getContext());
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(52.673872, -8.575679)).title("Limerick"));
-        CameraPosition Limerick = CameraPosition.builder().target(new LatLng(52.673872, -8.575679)).zoom(16).bearing(0).tilt(50).build();
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Limerick));
     }
 }

@@ -1,12 +1,19 @@
 package ie.ul.cs4084project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,10 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onMessageClicked(View view) {
-        MessageScreen newFragment = new MessageScreen();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment, newFragment);
-        ft.commit();
+
     }
 
     public void onSearchClicked(View view) {
@@ -55,4 +59,20 @@ public class MainActivity extends AppCompatActivity {
             ft.commit();
         }
     }
-}
+
+    public void deleteNote(View view) {
+            FirebaseFirestore.getInstance().collection("posts").document("Fv3JfSlCwX2N5oCtv7lV").delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "onSuccess: Deleted document");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "onFailure: Failed to delete", e);
+                        }
+                    });
+        }
+    }
