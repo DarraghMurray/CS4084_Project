@@ -81,7 +81,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                     try {
                                             throw task.getException();
-                                            
+
                                     } catch (FirebaseAuthWeakPasswordException e) {
                                         passwordText.setError(" Password Too Weak");
                                         passwordText.requestFocus();
