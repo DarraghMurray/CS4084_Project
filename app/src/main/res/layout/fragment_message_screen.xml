@@ -20,8 +20,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -38,8 +37,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -53,8 +51,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,7 +61,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:gravity="center"
-        android:text=" Subject: "
+        android:text="@string/subject"
         app:layout_constraintBottom_toBottomOf="@+id/textInputSubject"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textInputSubject" />
@@ -73,7 +70,7 @@
         android:id="@+id/textView8"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text=" To: "
+        android:text="@string/to"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/textInputTo"
         app:layout_constraintEnd_toStartOf="@+id/textInputSubject"
@@ -84,7 +81,7 @@
         android:id="@+id/textView9"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:text=" Body:"
+        android:text="@string/body"
         android:gravity="center"
         app:layout_constraintEnd_toStartOf="@+id/textInputSubject"
         app:layout_constraintStart_toStartOf="@+id/textView7"
@@ -103,7 +100,7 @@
         android:id="@+id/Send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send"
+        android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

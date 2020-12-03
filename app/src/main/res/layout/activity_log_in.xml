@@ -13,13 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/actionBarColor"
-        android:text="Account login" />
+        android:text="@string/account_login" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputEmailSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="enter your email..."
+        android:hint="@string/enter_your_email"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -31,7 +31,7 @@
         android:id="@+id/textInputPasswordSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="enter your password..."
+        android:hint="@string/enter_your_password"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/yellow_button"
-        android:text="Login" />
+        android:text="@string/login" />
 
     <ProgressBar
         android:id="@+id/progressBar"
