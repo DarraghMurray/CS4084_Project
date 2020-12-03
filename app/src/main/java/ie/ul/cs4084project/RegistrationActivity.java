@@ -17,6 +17,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
@@ -62,7 +66,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void registerNewUser() {
 
-        String name, email, password;
+        final String name, email, password;
         name = usernameText.getEditText().getText().toString();
         email = emailText.getEditText().getText().toString();
         password = passwordText.getEditText().getText().toString();
@@ -75,6 +79,21 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                    try {
+                                            throw task.getException();
+                                            
+                                    } catch (FirebaseAuthWeakPasswordException e) {
+                                        passwordText.setError(" Password Too Weak");
+                                        passwordText.requestFocus();
+                                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                                        emailText.setError(" Invalid Email");
+                                        emailText.requestFocus();
+                                    } catch (FirebaseAuthUserCollisionException e) {
+                                        emailText.setError(" User already exists");
+                                        emailText.requestFocus();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
 
