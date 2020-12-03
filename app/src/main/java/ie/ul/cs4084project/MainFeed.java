@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -94,7 +95,7 @@ public class MainFeed extends Fragment  {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Query query = db.collection("posts").orderBy("timeStamp").limit(20);
+        Query query = db.collection("posts").orderBy("timeStamp", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
                 .setQuery(query, Item.class)
@@ -102,12 +103,23 @@ public class MainFeed extends Fragment  {
 
         adapter = new FirestoreRecyclerAdapter<Item, ItemHolder>(options) {
 
-
             @Override
-            public void onBindViewHolder( @NonNull ItemHolder holder, int position, @NonNull Item item) {
-                    holder.nameTxtView.setText(item.getName());
-                    holder.descriptionTxtView.setText(item.getDescription());
-                    holder.priceTxtView.setText(Double.toString(item.getPrice()));
+            public void onBindViewHolder(@NonNull ItemHolder holder, int position, @NonNull final Item item) {
+                holder.nameTxtView.setText(item.getName());
+                holder.descriptionTxtView.setText(item.getDescription());
+                holder.priceTxtView.setText(Double.toString(item.getPrice()));
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ItemPage fragment = new ItemPage();
+                        Bundle args = new Bundle();
+                        args.putParcelable("Item", item);
+                        fragment.setArguments(args);
+                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.fragment, fragment);
+                        ft.commit();
+                    }
+                });
             }
 
             @Override
@@ -122,11 +134,4 @@ public class MainFeed extends Fragment  {
 
         itemFeed.setAdapter(adapter);
     }
-
-    public void onItemClick(View view, int position) {
-        Toast.makeText( getActivity(),"you clicked " + adapter.getItem(position) + " on row number"
-                + position, Toast.LENGTH_SHORT).show();
-    }
-
-
 }

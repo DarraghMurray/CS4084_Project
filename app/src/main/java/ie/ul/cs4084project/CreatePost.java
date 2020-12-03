@@ -2,10 +2,14 @@ package ie.ul.cs4084project;
 
 import android.graphics.Color;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.os.Parcel;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +17,14 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,13 +101,27 @@ public class CreatePost extends Fragment {
                 if(validateName() && validateDescription() && validatePrice() && validateCategory()) {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    CollectionReference posts = db.collection("posts");
-                    Item item = new Item();
+                    final Item item = new Item();
                     item.setName(textInputName.getEditText().getText().toString());
                     item.setDescription(textInputDescription.getEditText().getText().toString());
                     item.setPrice(Integer.parseInt(textInputPrice.getEditText().getText().toString()));
                     item.setCategory(categorySpinner.getSelectedItem().toString());
-                    posts.document().set(item);
+
+                    db.collection("posts")
+                            .add(item)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    item.setId(documentReference.getId());
+                                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
 
                     MainFeed newFragment = new MainFeed();
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
