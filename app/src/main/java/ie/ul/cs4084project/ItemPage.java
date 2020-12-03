@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -21,6 +22,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ItemPage#newInstance} factory method to
@@ -29,7 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class ItemPage extends Fragment implements OnMapReadyCallback {
 
     public MapView mMapView;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,11 +42,6 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     private String mParam1;
     private String mParam2;
 
-    private TextView itemTitle;
-    private TextView itemDescrip;
-    private TextView itemPricing;
-    private TextView itemSign;
-    private Button purchase;
     GoogleMap mGoogleMap;
     View mview;
 
@@ -90,11 +88,10 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        itemTitle = view.findViewById(R.id.itemTitle);
-        itemDescrip = view.findViewById(R.id.itemDescrip);
-        itemPricing = view.findViewById(R.id.itemPricing);
-        itemSign = view.findViewById(R.id.itemSign);
-        purchase = view.findViewById(R.id.btnPurchase);
+        TextView itemTitle = view.findViewById(R.id.itemTitle);
+        TextView itemDescrip = view.findViewById(R.id.itemDescrip);
+        TextView itemPricing = view.findViewById(R.id.itemPricing);
+        Button purchase = view.findViewById(R.id.btnPurchase);
 
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,15 +100,14 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment, newFragment);
                 ft.commit();
-                }
+            }
         });
 
+        Item itemPageItem = getArguments().getParcelable("Item");
+        itemTitle.setText(itemPageItem.getName());
+        itemDescrip.setText(itemPageItem.getDescription());
+        itemPricing.setText(Double.toString(itemPageItem.getPrice()));
 
-        itemTitle.setText(getArguments().getString("ItemName"));
-        itemDescrip.setText(getArguments().getString("ItemDescription"));
-        itemPricing.setText(Double.toString(getArguments().getDouble("ItemPrice")));
-        itemSign.setText("€");
-        ;
         mMapView = (MapView) mview.findViewById(R.id.map);
         if (mMapView != null) {
             mMapView.onCreate(null);
