@@ -3,6 +3,7 @@ package ie.ul.cs4084project;
 
 import android.nfc.Tag;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -102,42 +103,32 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         TextView itemPricing = view.findViewById(R.id.itemPricing);
         Button purchase = view.findViewById(R.id.btnPurchase);
 
-        purchase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PurchaseScreen newFragment = new PurchaseScreen();
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment, newFragment);
-                ft.commit();
-            }
-        });
+        itemPageItem = getArguments().getParcelable("Item");
 
-        /*Item ID needs to go into line 120 where specific ID is.
-        */
         purchase.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
-                db.collection("posts").document("XpnNIYBrgo4KuHKZCjic").delete()
+                //"Item ID" is the auto-generated ID from firestore, was unable to retrieve
+                FirebaseFirestore.getInstance().collection("posts").document(itemPageItem.getId()).delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                PurchaseScreen newFragment = new PurchaseScreen();
+                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.fragment, newFragment);
+                                ft.commit();
+                                Log.d(TAG, "onSuccess: Deleted document");
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error writing document", e);
+                                Log.e(TAG, "onFailure: Failed to delete", e);
                             }
                         });
             }
         });
 
 
-
-
-
-        itemPageItem = getArguments().getParcelable("Item");
         itemTitle.setText(itemPageItem.getName());
         itemDescrip.setText(itemPageItem.getDescription());
         itemPricing.setText(Double.toString(itemPageItem.getPrice()));
