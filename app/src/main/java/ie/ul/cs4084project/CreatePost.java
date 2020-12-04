@@ -1,10 +1,14 @@
 package ie.ul.cs4084project;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -16,8 +20,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,6 +43,7 @@ public class CreatePost extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static final int REQUEST_LOCATION = 4;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -44,6 +53,13 @@ public class CreatePost extends Fragment {
     private TextInputLayout textInputDescription;
     private TextInputLayout textInputPrice;
     private Spinner categorySpinner;
+
+    private int locationRequestCode = 1000;
+
+    private double latitude;
+    private double longitude;
+
+    private Item item;
 
     public CreatePost() {
         // Required empty public constructor
@@ -74,6 +90,25 @@ public class CreatePost extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        item = new Item();
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ((MainActivity) getActivity()).permission = false;
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, locationRequestCode);
+        } else {
+            LocationFinder finder;
+            finder = new LocationFinder(getContext());
+            if (finder.canGetLocation()) {
+                item.setLatitude(finder.getLatitude());
+                item.setLongitude(finder.getLongitude());
+                Log.d("DDDDDDDDDdd", finder.getLatitude() + " " + finder.getLongitude());
+            } else {
+                finder.showSettingsAlert();
+            }
+        }
     }
 
     @Override
@@ -99,7 +134,6 @@ public class CreatePost extends Fragment {
                 if(validateName() && validateDescription() && validatePrice() && validateCategory()) {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    final Item item = new Item();
                     item.setName(textInputName.getEditText().getText().toString());
                     item.setDescription(textInputDescription.getEditText().getText().toString());
                     item.setPrice(Integer.parseInt(textInputPrice.getEditText().getText().toString()));

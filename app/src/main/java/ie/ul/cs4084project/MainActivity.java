@@ -1,7 +1,10 @@
 package ie.ul.cs4084project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Spinner;
@@ -12,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextInputLayout textInputSearch;
     private Spinner categorySpinner;
+
+    protected boolean permission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSearchClicked(View view) {
-        if(!categorySpinner.getSelectedItem().toString().equals("-select a category-")) {
+        if (!categorySpinner.getSelectedItem().toString().equals("-select a category-")) {
             FindItem newFragment = new FindItem();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             Bundle args = new Bundle();
@@ -53,6 +58,21 @@ public class MainActivity extends AppCompatActivity {
             newFragment.setArguments(args);
             ft.replace(R.id.fragment, newFragment);
             ft.commit();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1000: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                }
+                break;
+            }
         }
     }
 }
