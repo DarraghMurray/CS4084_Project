@@ -2,10 +2,13 @@ package ie.ul.cs4084project;
 
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +23,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,17 +102,31 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         TextView itemPricing = view.findViewById(R.id.itemPricing);
         Button purchase = view.findViewById(R.id.btnPurchase);
 
+        itemPageItem = getArguments().getParcelable("Item");
+
         purchase.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
-                PurchaseScreen newFragment = new PurchaseScreen();
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment, newFragment);
-                ft.commit();
+                //"Item ID" is the auto-generated ID from firestore, was unable to retrieve
+                FirebaseFirestore.getInstance().collection("posts").document(itemPageItem.getId()).delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                PurchaseScreen newFragment = new PurchaseScreen();
+                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.fragment, newFragment);
+                                ft.commit();
+                                Log.d(TAG, "onSuccess: Deleted document");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: Failed to delete", e);
+                            }
+                        });
             }
         });
 
-        itemPageItem = getArguments().getParcelable("Item");
         itemTitle.setText(itemPageItem.getName());
         itemDescrip.setText(itemPageItem.getDescription());
         itemPricing.setText(Double.toString(itemPageItem.getPrice()));

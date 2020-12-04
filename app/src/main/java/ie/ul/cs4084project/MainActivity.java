@@ -49,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onMessageClicked(View view) {
-
+        MessageScreen newFragment = new MessageScreen();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment, newFragment);
+        ft.commit();
     }
 
     public void onSearchClicked(View view) {
