@@ -45,6 +45,8 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     GoogleMap mGoogleMap;
     View mview;
 
+    Item itemPageItem;
+
     public ItemPage() {
         // Required empty public constructor
     }
@@ -103,7 +105,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        Item itemPageItem = getArguments().getParcelable("Item");
+        itemPageItem = getArguments().getParcelable("Item");
         itemTitle.setText(itemPageItem.getName());
         itemDescrip.setText(itemPageItem.getDescription());
         itemPricing.setText(Double.toString(itemPageItem.getPrice()));
@@ -112,25 +114,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         if (mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
-            mMapView.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap gMap) {
-                    mGoogleMap = gMap;
-                    mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            MarkerOptions markerOptions = new MarkerOptions();
-                            markerOptions.position(latLng);
-                            markerOptions.title(latLng.latitude+ " : " + latLng.longitude);
-                            mGoogleMap.clear();
-                            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
-                            mGoogleMap.addMarker(markerOptions);
-                        }
-                    });
-
-
-                }
-            });
+            mMapView.getMapAsync(this);
         }
     }
 
@@ -138,9 +122,9 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         mGoogleMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(52.673872, -8.575679)).title("Limerick"));
-        CameraPosition Limerick = CameraPosition.builder().target(new LatLng(52.673872, -8.575679)).zoom(16).bearing(0).tilt(50).build();
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Limerick));
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("Item Location"));
+        CameraPosition itemLocation = CameraPosition.builder().target(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).zoom(16).bearing(0).tilt(50).build();
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(itemLocation));
     }
 }
