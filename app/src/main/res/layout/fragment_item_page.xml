@@ -73,6 +73,7 @@
         android:id="@+id/btnPurchase"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:onClick="onDelete"
         android:text="Buy"
         app:layout_constraintBottom_toTopOf="@+id/itemTitle"
         app:layout_constraintEnd_toEndOf="parent"
