@@ -19,13 +19,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -138,22 +133,10 @@ public class CreatePost extends Fragment {
                     item.setDescription(textInputDescription.getEditText().getText().toString());
                     item.setPrice(Integer.parseInt(textInputPrice.getEditText().getText().toString()));
                     item.setCategory(categorySpinner.getSelectedItem().toString());
-
-                    db.collection("posts")
-                            .add(item)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    item.setId(documentReference.getId());
-                                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error adding document", e);
-                                }
-                            });
+                    DocumentReference ref = db.collection("posts").document();
+                    item.setId(ref.getId());
+                    System.out.println(item.getId());
+                    ref.set(item);
 
                     MainFeed newFragment = new MainFeed();
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -165,11 +148,8 @@ public class CreatePost extends Fragment {
     }
 
     private boolean validateCategory() {
-        if(categorySpinner.getSelectedItem().toString().equals("-select a category-")) {
-            TextView errorText = (TextView)categorySpinner.getSelectedItem();
-            errorText.setError("must select a category");
-            errorText.setTextColor(Color.RED);
-            errorText.setText("must select a category");
+        if (categorySpinner.getSelectedItem().toString().equals("-select a category-")) {
+            Toast.makeText(getContext(), "Must select a category", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
