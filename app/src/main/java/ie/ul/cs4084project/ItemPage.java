@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +19,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +48,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
 
     GoogleMap mGoogleMap;
     View mview;
+
 
     Item itemPageItem;
 
@@ -89,11 +94,16 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         TextView itemTitle = view.findViewById(R.id.itemTitle);
         TextView itemDescrip = view.findViewById(R.id.itemDescrip);
         TextView itemPricing = view.findViewById(R.id.itemPricing);
         Button purchase = view.findViewById(R.id.btnPurchase);
+=======
+        itemTitle = view.findViewById(R.id.itemTitle);
+        itemDescrip = view.findViewById(R.id.itemDescrip);
+        itemPricing = view.findViewById(R.id.itemPricing);
+        itemSign = view.findViewById(R.id.itemSign);
+        purchase = view.findViewById(R.id.btnPurchase);
 
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +119,24 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         itemTitle.setText(itemPageItem.getName());
         itemDescrip.setText(itemPageItem.getDescription());
         itemPricing.setText(Double.toString(itemPageItem.getPrice()));
+        purchase.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //"Item ID" is the auto-generated ID from firestore, was unable to retrieve
+                FirebaseFirestore.getInstance().collection("posts").document("Item ID").delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "onSuccess: Deleted document");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: Failed to delete", e);
+                            }
+                        });
+            }
+        });
 
         mMapView = (MapView) mview.findViewById(R.id.map);
         if (mMapView != null) {
@@ -126,5 +154,6 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("Item Location"));
         CameraPosition itemLocation = CameraPosition.builder().target(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).zoom(16).bearing(0).tilt(50).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(itemLocation));
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
 }

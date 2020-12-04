@@ -6,10 +6,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,10 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onMessageClicked(View view) {
-        MessageScreen newFragment = new MessageScreen();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment, newFragment);
-        ft.commit();
+
     }
 
     public void onSearchClicked(View view) {
