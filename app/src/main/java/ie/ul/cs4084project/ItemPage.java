@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -24,7 +25,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import static android.content.ContentValues.TAG;
+import java.util.Objects;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +36,7 @@ import static android.content.ContentValues.TAG;
 public class ItemPage extends Fragment implements OnMapReadyCallback {
 
     public MapView mMapView;
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,13 +46,12 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     private String mParam1;
     private String mParam2;
 
-    private TextView itemTitle;
-    private TextView itemDescrip;
-    private TextView itemPricing;
-    private TextView itemSign;
-    private Button purchase;
     GoogleMap mGoogleMap;
     View mview;
+
+
+    Item itemPageItem;
+
     public ItemPage() {
         // Required empty public constructor
     }
@@ -93,6 +94,11 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        TextView itemTitle = view.findViewById(R.id.itemTitle);
+        TextView itemDescrip = view.findViewById(R.id.itemDescrip);
+        TextView itemPricing = view.findViewById(R.id.itemPricing);
+        Button purchase = view.findViewById(R.id.btnPurchase);
+=======
         itemTitle = view.findViewById(R.id.itemTitle);
         itemDescrip = view.findViewById(R.id.itemDescrip);
         itemPricing = view.findViewById(R.id.itemPricing);
@@ -106,9 +112,13 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment, newFragment);
                 ft.commit();
-                }
+            }
         });
 
+        itemPageItem = getArguments().getParcelable("Item");
+        itemTitle.setText(itemPageItem.getName());
+        itemDescrip.setText(itemPageItem.getDescription());
+        itemPricing.setText(Double.toString(itemPageItem.getPrice()));
         purchase.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //"Item ID" is the auto-generated ID from firestore, was unable to retrieve
@@ -128,34 +138,11 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        itemTitle.setText(getArguments().getString("ItemName"));
-        itemDescrip.setText(getArguments().getString("ItemDescription"));
-        itemPricing.setText(Double.toString(getArguments().getDouble("ItemPrice")));
-        itemSign.setText("€");
-        ;
         mMapView = (MapView) mview.findViewById(R.id.map);
         if (mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
-            mMapView.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap gMap) {
-                    mGoogleMap = gMap;
-                    mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            MarkerOptions markerOptions = new MarkerOptions();
-                            markerOptions.position(latLng);
-                            markerOptions.title(latLng.latitude+ " : " + latLng.longitude);
-                            mGoogleMap.clear();
-                            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
-                            mGoogleMap.addMarker(markerOptions);
-                        }
-                    });
-
-
-                }
-            });
+            mMapView.getMapAsync(this);
         }
     }
 
@@ -163,6 +150,10 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         mGoogleMap = googleMap;
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("Item Location"));
+        CameraPosition itemLocation = CameraPosition.builder().target(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).zoom(16).bearing(0).tilt(50).build();
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(itemLocation));
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
 }
