@@ -35,6 +35,15 @@ public class LogIn extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
+
+    /**
+     * onCreate method creates activity and sets content view to activity_log_in
+     * It initializes mAuth to get FirebaseAuth instance
+     * It initializes UI element declarations to their respective UI elements in the layout file
+     * It sets the OnClickListener for the loginBtn so it calls the method loginUserAccount() on click
+     *
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +51,7 @@ public class LogIn extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        textInputEmailSignIn= findViewById(R.id.textInputEmailSignIn);
+        textInputEmailSignIn = findViewById(R.id.textInputEmailSignIn);
         textInputPasswordSignIn = findViewById(R.id.textInputPasswordSignIn);
         loginBtn = findViewById(R.id.logInBtn);
         progressBar = findViewById(R.id.progressBar);
@@ -55,13 +64,18 @@ public class LogIn extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method places text from textInputLayouts into strings
+     * It checks that these are valid by calling validateEmail and validatePassword with their respective text strings as parameters
+     * It then calls the FirebaseAuth method signInWithEmailAndPassword() with both strings as parameters to attempt sign-in
+     */
     private void loginUserAccount() {
 
         String email, password;
         email = textInputEmailSignIn.getEditText().getText().toString();
         password = textInputPasswordSignIn.getEditText().getText().toString();
 
-        if(validateEmail(email) && validatePassword(password)) {
+        if (validateEmail(email) && validatePassword(password)) {
             progressBar.setVisibility(View.VISIBLE);
 
             mAuth.signInWithEmailAndPassword(email, password)
@@ -83,8 +97,14 @@ public class LogIn extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method checks that the entered password was valid.
+     *
+     * @param password String contains text of users input password.
+     * @return True if valid, False if invalid.
+     */
     private boolean validatePassword(String password) {
-        if(password.isEmpty()) {
+        if (password.isEmpty()) {
             textInputPasswordSignIn.setError("field can't be empty");
             return false;
         } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
@@ -96,11 +116,17 @@ public class LogIn extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method checks that entered email was valid.
+     *
+     * @param email String contains text of users input email.
+     * @return True if valid, False if invalid.
+     */
     private boolean validateEmail(String email) {
-        if(email.isEmpty()) {
+        if (email.isEmpty()) {
             textInputEmailSignIn.setError("field can't be empty");
             return false;
-        }else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             textInputEmailSignIn.setError("please enter a valid email address");
             return false;
         } else {

@@ -15,7 +15,7 @@
         android:layout_height="0dp"
         android:layout_marginEnd="1dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/btnPost"
+        app:layout_constraintBottom_toTopOf="@+id/btnCreatePost"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputSearch"
@@ -66,19 +66,18 @@
         android:background="@drawable/home_button_icon_icons_com_72700"
         android:onClick="onHomeClicked"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnPost"
+        app:layout_constraintEnd_toStartOf="@+id/btnCreatePost"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/btnPost"
+        android:id="@+id/btnCreatePost"
         android:layout_width="95dp"
         android:layout_height="54dp"
         android:background="@drawable/plus_circle_new_create_icon_145948"
         android:onClick="onCreatePostClicked"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deletePost"
         app:layout_constraintStart_toEndOf="@+id/btnHome"
         app:layout_constraintTop_toBottomOf="@+id/fragment"
         app:layout_constraintVertical_bias="1.0" />
@@ -87,24 +86,13 @@
         android:id="@+id/btnMessage"
         android:layout_width="106dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="1dp"
         android:background="@drawable/messagebubble_122052"
         android:drawablePadding="100dp"
         android:onClick="onMessageClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/btnPost"
-        app:layout_constraintTop_toBottomOf="@+id/fragment"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/deletePost"
-        android:layout_width="96dp"
-        android:layout_height="54dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnMessage"
-        app:layout_constraintStart_toEndOf="@+id/btnPost"
+        app:layout_constraintStart_toEndOf="@+id/btnCreatePost"
         app:layout_constraintTop_toBottomOf="@+id/fragment"
         app:layout_constraintVertical_bias="1.0" />
 
