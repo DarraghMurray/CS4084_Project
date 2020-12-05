@@ -1,8 +1,9 @@
 package ie.ul.cs4084project;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,15 +18,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import static android.content.ContentValues.TAG;
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +49,8 @@ public class CreatePost extends Fragment {
     private TextInputLayout textInputDescription;
     private TextInputLayout textInputPrice;
     private Spinner categorySpinner;
+    private ImageView pickedImage;
+    private Button pickImage;
 
     private int locationRequestCode = 1000;
 
@@ -55,6 +58,8 @@ public class CreatePost extends Fragment {
     private double longitude;
 
     private Item item;
+
+    private static final int PICK_IMAGE = 100;
 
     public CreatePost() {
         // Required empty public constructor
@@ -121,12 +126,14 @@ public class CreatePost extends Fragment {
         textInputDescription = view.findViewById(R.id.TextInputDescription);
         textInputPrice = view.findViewById(R.id.TextInputPrice);
         categorySpinner = view.findViewById(R.id.categorySpinner);
+        pickImage = view.findViewById(R.id.pickImage);
+        pickedImage = view.findViewById(R.id.pickedImage);
 
         Button Post = view.findViewById(R.id.Post);
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateName() && validateDescription() && validatePrice() && validateCategory()) {
+                if (validateName() && validateDescription() && validatePrice() && validateCategory()) {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                     item.setName(textInputName.getEditText().getText().toString());
@@ -145,6 +152,27 @@ public class CreatePost extends Fragment {
                 }
             }
         });
+
+        pickImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
+    }
+
+    private void openGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            Uri imageUri = data.getData();
+            pickedImage.setImageURI(imageUri);
+        }
     }
 
     private boolean validateCategory() {
