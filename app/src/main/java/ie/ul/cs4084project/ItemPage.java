@@ -101,6 +101,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         TextView itemTitle = view.findViewById(R.id.itemTitle);
         TextView itemDescrip = view.findViewById(R.id.itemDescrip);
         TextView itemPricing = view.findViewById(R.id.itemPricing);
+        TextView sellerUser = view.findViewById(R.id.sellerUser);
         Button purchase = view.findViewById(R.id.btnPurchase);
 
         itemPageItem = getArguments().getParcelable("Item");
@@ -132,6 +133,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         itemTitle.setText(itemPageItem.getName());
         itemDescrip.setText(itemPageItem.getDescription());
         itemPricing.setText(Double.toString(itemPageItem.getPrice()));
+        sellerUser.setText(itemPageItem.getName());
 
         mMapView = (MapView) mview.findViewById(R.id.map);
         if (mMapView != null) {
