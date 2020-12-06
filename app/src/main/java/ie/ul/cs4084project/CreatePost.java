@@ -3,6 +3,8 @@ package ie.ul.cs4084project;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -22,9 +24,19 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -51,6 +63,7 @@ public class CreatePost extends Fragment {
     private Spinner categorySpinner;
     private ImageView pickedImage;
     private Button pickImage;
+    private Uri imageUri;
 
     private int locationRequestCode = 1000;
 
@@ -58,6 +71,8 @@ public class CreatePost extends Fragment {
     private double longitude;
 
     private Item item;
+    private FirebaseStorage storage;
+    private StorageReference imageRef;
 
     private static final int PICK_IMAGE = 100;
 
@@ -90,7 +105,7 @@ public class CreatePost extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        storage = FirebaseStorage.getInstance();
         item = new Item();
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -128,20 +143,27 @@ public class CreatePost extends Fragment {
         categorySpinner = view.findViewById(R.id.categorySpinner);
         pickImage = view.findViewById(R.id.pickImage);
         pickedImage = view.findViewById(R.id.pickedImage);
+        pickedImage.setDrawingCacheEnabled(true);
+        pickedImage.buildDrawingCache();
+        imageUri = null;
 
         Button Post = view.findViewById(R.id.Post);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DocumentReference ref = db.collection("posts").document();
+
+        imageRef = storage.getReference().child("images/" + ref.getId());
+
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateName() && validateDescription() && validatePrice() && validateCategory()) {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-
                     item.setName(textInputName.getEditText().getText().toString());
                     item.setDescription(textInputDescription.getEditText().getText().toString());
                     item.setPrice(Integer.parseInt(textInputPrice.getEditText().getText().toString()));
                     item.setCategory(categorySpinner.getSelectedItem().toString());
-                    DocumentReference ref = db.collection("posts").document();
                     item.setId(ref.getId());
+                    item.setItemImage(imageUri.toString());
                     System.out.println(item.getId());
                     ref.set(item);
 
@@ -163,6 +185,7 @@ public class CreatePost extends Fragment {
 
     private void openGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        gallery.setType("image/");
         startActivityForResult(gallery, PICK_IMAGE);
     }
 
@@ -170,9 +193,47 @@ public class CreatePost extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            Uri imageUri = data.getData();
-            pickedImage.setImageURI(imageUri);
+            pickedImage.setImageURI(data.getData());
+            Bitmap bitmap = ((BitmapDrawable) pickedImage.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageData = baos.toByteArray();
+            upload(imageData);
         }
+    }
+
+    private void upload(byte[] imageData) {
+        UploadTask uploadTask = imageRef.putBytes(imageData);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+            }
+        });
+        Task<Uri> URITask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return imageRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    imageUri = task.getResult();
+                } else {
+
+                }
+            }
+        });
+
     }
 
     private boolean validateCategory() {

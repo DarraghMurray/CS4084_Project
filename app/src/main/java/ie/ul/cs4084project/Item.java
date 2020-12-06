@@ -1,6 +1,7 @@
 package ie.ul.cs4084project;
 
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -18,6 +19,7 @@ public class Item implements Parcelable {
     private String category;
     private double latitude;
     private double longitude;
+    private String itemImage;
     @ServerTimestamp
     private Date timeStamp;
 
@@ -84,6 +86,10 @@ public class Item implements Parcelable {
         return timeStamp;
     }
 
+    public String getItemImage() {
+        return itemImage;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -114,6 +120,10 @@ public class Item implements Parcelable {
 
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public void setItemImage(String itemImage) {
+        this.itemImage = itemImage;
     }
 
     @Override
