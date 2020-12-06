@@ -163,7 +163,11 @@ public class CreatePost extends Fragment {
                     item.setPrice(Integer.parseInt(textInputPrice.getEditText().getText().toString()));
                     item.setCategory(categorySpinner.getSelectedItem().toString());
                     item.setId(ref.getId());
-                    item.setItemImage(imageUri.toString());
+                    if (imageUri == null) {
+                        item.setItemImage(null);
+                    } else {
+                        item.setItemImage(imageUri.toString());
+                    }
                     System.out.println(item.getId());
                     ref.set(item);
 
