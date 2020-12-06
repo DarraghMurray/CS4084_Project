@@ -5,17 +5,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.android.material.textfield.TextInputLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextInputLayout textInputSearch;
+    private EditText editText;
     private Spinner categorySpinner;
 
     protected boolean permission;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textInputSearch = findViewById(R.id.textInputSearch);
+        editText = findViewById(R.id.textInputSearch);
         categorySpinner = findViewById(R.id.categorySpinner);
     }
 
