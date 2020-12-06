@@ -1,6 +1,7 @@
 package ie.ul.cs4084project;
 
 
+import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
 
@@ -14,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -103,6 +106,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         TextView itemPricing = view.findViewById(R.id.itemPricing);
         TextView sellerUser = view.findViewById(R.id.sellerUser);
         Button purchase = view.findViewById(R.id.btnPurchase);
+        ImageView itemPageImage = view.findViewById(R.id.itemPageImage);
 
         itemPageItem = getArguments().getParcelable("Item");
 
@@ -134,6 +138,9 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         itemDescrip.setText(itemPageItem.getDescription());
         itemPricing.setText(Double.toString(itemPageItem.getPrice()));
         sellerUser.setText(itemPageItem.getName());
+        if (!(itemPageItem.getItemImage() == null)) {
+            Glide.with(getContext()).load(Uri.parse(itemPageItem.getItemImage())).into(itemPageImage);
+        }
 
         mMapView = (MapView) mview.findViewById(R.id.map);
         if (mMapView != null) {
