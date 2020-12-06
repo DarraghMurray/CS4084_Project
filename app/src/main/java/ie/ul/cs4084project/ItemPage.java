@@ -1,6 +1,7 @@
 package ie.ul.cs4084project;
 
 
+import android.nfc.Tag;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -127,6 +128,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
                         });
             }
         });
+
 
         itemTitle.setText(itemPageItem.getName());
         itemDescrip.setText(itemPageItem.getDescription());
