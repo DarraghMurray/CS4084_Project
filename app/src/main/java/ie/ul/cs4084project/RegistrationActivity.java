@@ -106,7 +106,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         }
                     });
 
-            FirebaseUser user = mAuth.getCurrentUser();
+            final FirebaseUser user = mAuth.getCurrentUser();
 
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(name)
@@ -117,7 +117,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Log.d("user", "User profile updated.");
+                                Log.d("user", "User profile updated. " + user.getDisplayName());
                             }
                         }
                     });

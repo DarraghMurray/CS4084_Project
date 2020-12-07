@@ -30,6 +30,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -162,6 +164,7 @@ public class CreatePost extends Fragment {
                     item.setDescription(textInputDescription.getEditText().getText().toString());
                     item.setPrice(Integer.parseInt(textInputPrice.getEditText().getText().toString()));
                     item.setCategory(categorySpinner.getSelectedItem().toString());
+                    item.setSellerName(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                     item.setId(ref.getId());
                     if (imageUri == null) {
                         item.setItemImage(null);
