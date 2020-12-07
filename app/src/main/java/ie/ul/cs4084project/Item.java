@@ -22,24 +22,29 @@ public class Item implements Parcelable {
     private String itemImage;
     @ServerTimestamp
     private Date timeStamp;
+    private String sellerName;
 
+    /**
+     * default constructor for items
+     */
     public Item() {
     }
 
-    public Item(String id, String name, String description, double price, String category) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-    }
-
+    /**
+     * item constructor from parcel
+     *
+     * @param in a parcel containing an item
+     */
     protected Item(Parcel in) {
         id = in.readString();
         name = in.readString();
         description = in.readString();
         price = in.readDouble();
         category = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        itemImage = in.readString();
+        sellerName = in.readString();
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
@@ -54,38 +59,72 @@ public class Item implements Parcelable {
         }
     };
 
+    /**
+     * @return id String id of item
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @return name String name of item
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return description String description of item
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @return price Double price of item
+     */
     public double getPrice() {
         return price;
     }
 
+    /**
+     * @return category String category of item
+     */
     public String getCategory() {
         return category;
     }
 
+    /**
+     * @return latitude Double latitude of item location
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * @return longitude Double longitude of item Location
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * @return timeStamp Date timestamp of item creation from Firebase servers
+     */
     public Date getTimeStamp() {
         return timeStamp;
     }
 
+    /**
+     * @return sellerName String user name of item seller
+     */
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    /**
+     * @return itemImage String Uri of item image in String form
+     */
     public String getItemImage() {
         return itemImage;
     }
@@ -120,6 +159,10 @@ public class Item implements Parcelable {
 
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
     }
 
     public void setItemImage(String itemImage) {

@@ -92,6 +92,16 @@
                 android:background="@drawable/buy_button"
                 android:text="@string/buy"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnMessageSeller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPurchase"
+                android:layout_alignStart="@+id/btnPurchase"
+                android:layout_alignEnd="@+id/btnPurchase"
+                android:layout_marginTop="24dp"
+                android:text="Message Seller" />
         </RelativeLayout>
     </ScrollView>
 
