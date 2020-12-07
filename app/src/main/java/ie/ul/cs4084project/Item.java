@@ -23,6 +23,7 @@ public class Item implements Parcelable {
     @ServerTimestamp
     private Date timeStamp;
     private String sellerName;
+    private String sellerContact;
 
     /**
      * default constructor for items
@@ -45,6 +46,7 @@ public class Item implements Parcelable {
         longitude = in.readDouble();
         itemImage = in.readString();
         sellerName = in.readString();
+        sellerContact = in.readString();
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
@@ -123,12 +125,22 @@ public class Item implements Parcelable {
     }
 
     /**
+     * @return sellerContact String email of item seller
+     */
+    public String getSellerContact() {
+        return sellerContact;
+    }
+
+    /**
      * @return itemImage String Uri of item image in String form
      */
     public String getItemImage() {
         return itemImage;
     }
 
+    /**
+     * @param id
+     */
     public void setId(String id) {
         this.id = id;
     }
@@ -167,6 +179,10 @@ public class Item implements Parcelable {
 
     public void setItemImage(String itemImage) {
         this.itemImage = itemImage;
+    }
+
+    public void setSellerContact(String sellerContact) {
+        this.sellerContact = sellerContact;
     }
 
     @Override

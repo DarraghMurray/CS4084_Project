@@ -14,6 +14,8 @@ import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MessageScreen#newInstance} factory method to
@@ -25,6 +27,7 @@ public class MessageScreen extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int EMAIL_SENT = 10;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -80,10 +83,15 @@ public class MessageScreen extends Fragment {
         textInputSubject = view.findViewById(R.id.textInputSubject);
         textInputBody = view.findViewById(R.id.textInputBody);
 
+        if (getArguments() != null) {
+            textInputTo.getEditText().setText(getArguments().getString("sellerEmail"));
+        }
+
         sendEmail = view.findViewById(R.id.Send);
         sendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String emailsend = textInputTo.getEditText().getText().toString();
                 String emailsubject = textInputSubject.getEditText().getText().toString();
                 String emailbody = textInputBody.getEditText().getText().toString();
@@ -91,17 +99,24 @@ public class MessageScreen extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_SEND);
 
                 intent.putExtra(Intent.EXTRA_EMAIL,
-                        new String[] { emailsend });
+                        new String[]{emailsend});
                 intent.putExtra(Intent.EXTRA_SUBJECT, emailsubject);
                 intent.putExtra(Intent.EXTRA_TEXT, emailbody);
 
                 intent.setType("message/rfc822");
 
-                startActivity(Intent.createChooser(intent, "Choose an Email client :"));
-            }});
+                startActivityForResult(Intent.createChooser(intent, "Choose an Email client :"), 10);
+            }
+        });
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == EMAIL_SENT) {
             textInputTo.getEditText().getText().clear();
             textInputSubject.getEditText().getText().clear();
             textInputBody.getEditText().getText().clear();
+        }
     }
 }
