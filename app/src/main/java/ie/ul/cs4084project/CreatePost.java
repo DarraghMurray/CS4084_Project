@@ -31,7 +31,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -152,6 +151,7 @@ public class CreatePost extends Fragment {
         Button Post = view.findViewById(R.id.Post);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
         final DocumentReference ref = db.collection("posts").document();
 
         imageRef = storage.getReference().child("images/" + ref.getId());
@@ -164,13 +164,14 @@ public class CreatePost extends Fragment {
                     item.setDescription(textInputDescription.getEditText().getText().toString());
                     item.setPrice(Integer.parseInt(textInputPrice.getEditText().getText().toString()));
                     item.setCategory(categorySpinner.getSelectedItem().toString());
-                    item.setSellerName(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                    item.setSellerName(auth.getCurrentUser().getDisplayName());
                     item.setId(ref.getId());
                     if (imageUri == null) {
                         item.setItemImage(null);
                     } else {
                         item.setItemImage(imageUri.toString());
                     }
+                    item.setSellerContact(auth.getCurrentUser().getEmail());
                     System.out.println(item.getId());
                     ref.set(item);
 

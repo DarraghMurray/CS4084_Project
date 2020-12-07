@@ -137,6 +137,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         final ImageView itemPageImage = view.findViewById(R.id.itemPageImage);
 
         itemPageItem = getArguments().getParcelable("Item");
+        final String email = itemPageItem.getSellerContact();
 
         purchase.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -165,6 +166,10 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 MessageScreen newFragment = new MessageScreen();
+                Bundle args = new Bundle();
+                args.putString("sellerEmail", email);
+                System.out.println(args.getString("sellerEmail"));
+                newFragment.setArguments(args);
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment, newFragment);
                 ft.commit();
