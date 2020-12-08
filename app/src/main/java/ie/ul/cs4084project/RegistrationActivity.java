@@ -29,8 +29,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     //TextInputs from Layout
     private TextInputLayout usernameText, emailText, passwordText;
-    //button for registering
-    private Button regBtn;
     //indicates registrtion is progressing
     private ProgressBar progressBar;
 
@@ -52,7 +50,6 @@ public class RegistrationActivity extends AppCompatActivity {
      * It initializes mAuth to get FirebaseAuth instance
      * It initializes UI element declarations to their respective UI elements in the layout file
      * It sets the OnClickListener for the regBtn so it calls the method RegisterNewUser() on click
-     *
      * @param savedInstanceState Bundle
      */
     @Override
@@ -65,7 +62,8 @@ public class RegistrationActivity extends AppCompatActivity {
         usernameText = findViewById(R.id.textInputUser);
         emailText = findViewById(R.id.textInputEmail);
         passwordText = findViewById(R.id.textInputPassword);
-        regBtn = findViewById(R.id.register);
+        //button for registering
+        Button regBtn = findViewById(R.id.register);
         progressBar = findViewById(R.id.progressBar);
 
         regBtn.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +143,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     /**
      * Method checks that the entered password was valid.
-     *
      * @param password String contains text of users input password.
      * @return True if valid, False if invalid.
      */
@@ -164,7 +161,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     /**
      * Method checks that entered email was valid.
-     *
      * @param email String contains text of users input email.
      * @return True if valid, False if invalid.
      */
@@ -182,7 +178,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     /**
-     * Method checks that entered name was valid.
+     * Method checks that entered user name was valid.
      *
      * @param name String contains text of users input user name.
      * @return True if valid, False if invalid.

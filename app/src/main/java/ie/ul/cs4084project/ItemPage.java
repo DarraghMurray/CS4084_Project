@@ -2,6 +2,7 @@ package ie.ul.cs4084project;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,16 +59,23 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     private String mParam1;
     private String mParam2;
 
+    //longitude and latitude of user
     private double userLatitude;
     private double userLongitude;
 
+    //request code for location
     private int locationRequestCode = 1000;
 
-    GoogleMap mGoogleMap;
+    //GoogleMap
+    private GoogleMap mGoogleMap;
     View mview;
 
-    Item itemPageItem;
+    //item for item page user is on
+    private Item itemPageItem;
 
+    /**
+     * ItemPage default constructor
+     */
     public ItemPage() {
         // Required empty public constructor
     }
@@ -75,7 +83,6 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment ItemPage.
@@ -90,6 +97,12 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         return fragment;
     }
 
+    /**
+     * gets location permission
+     * if permission is provided it retrieves the user location and sets their latitude and longitude
+     *
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +129,14 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    /**
+     * onCreateView default fragment onCreateView
+     *
+     * @param inflater           LayoutInflater
+     * @param container          ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -124,6 +145,17 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     }
 
 
+    /**
+     * initializes UI elements
+     * gets itemPageItem from a parcel argument and seller contact email
+     * Purchase button on click gets Firestore instance and deletes the item in database with the ID of this item
+     * then transitions to purchase screen
+     * Message Seller button on click transitions to message screen taking seller contact email as an argument
+     * After the on clicks it sets up textView text, image in ImageView and a google map
+     *
+     * @param view               View
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -134,6 +166,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         TextView sellerUser = view.findViewById(R.id.sellerUser);
         Button purchase = view.findViewById(R.id.btnPurchase);
         Button messageSeller = view.findViewById(R.id.btnMessageSeller);
+        Button getDirections = view.findViewById(R.id.getDirections);
         final ImageView itemPageImage = view.findViewById(R.id.itemPageImage);
 
         itemPageItem = getArguments().getParcelable("Item");
@@ -176,6 +209,17 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        getDirections.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uri = String.format("http://maps.google.com/maps?saddr=%f,%f(%s)&daddr=%f,%f (%s)",
+                        userLatitude, userLongitude, "You",
+                        itemPageItem.getLatitude(), itemPageItem.getLongitude(), "Item");
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                intent.setPackage("com.google.android.apps.maps");
+                startActivity(intent);
+            }
+        });
 
         itemTitle.setText(itemPageItem.getName());
         itemDescrip.setText(itemPageItem.getDescription());
@@ -193,11 +237,18 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    /**
+     * initializes map and sets up markers for the item and user location
+     * moves camera to the item marker location
+     *
+     * @param googleMap GoogleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(userLatitude, userLongitude))).setTitle("YOU");
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("ITEM"));
         CameraPosition itemLocation = CameraPosition.builder().target(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).zoom(16).bearing(0).tilt(50).build();

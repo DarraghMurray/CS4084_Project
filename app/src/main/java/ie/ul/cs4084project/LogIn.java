@@ -33,8 +33,6 @@ public class LogIn extends AppCompatActivity {
 
     //TextInputs from the layout
     private TextInputLayout textInputEmailSignIn, textInputPasswordSignIn;
-    //button for log in
-    private Button loginBtn;
     //indicates login is progressing
     private ProgressBar progressBar;
 
@@ -46,7 +44,6 @@ public class LogIn extends AppCompatActivity {
      * It initializes mAuth to get FirebaseAuth instance
      * It initializes UI element declarations to their respective UI elements in the layout file
      * It sets the OnClickListener for the loginBtn so it calls the method loginUserAccount() on click
-     *
      * @param savedInstanceState Bundle
      */
     @Override
@@ -58,7 +55,8 @@ public class LogIn extends AppCompatActivity {
 
         textInputEmailSignIn = findViewById(R.id.textInputEmailSignIn);
         textInputPasswordSignIn = findViewById(R.id.textInputPasswordSignIn);
-        loginBtn = findViewById(R.id.logInBtn);
+        //button for log in
+        Button loginBtn = findViewById(R.id.logInBtn);
         progressBar = findViewById(R.id.progressBar);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {

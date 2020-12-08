@@ -5,28 +5,26 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.google.android.gms.common.api.Api;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.snapshot.Index;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editText;
+    //text input from the layout
+    private TextInputLayout textInputSearch;
+    //spinner for categories;
     private Spinner categorySpinner;
 
     protected boolean permission;
 
     /**
-     * onCreate creates the Activity and sets content view to acivity_main
-     * it also initializes textInputSearch and categorySpinner to their respective UI elements
+     * onCreate creates the Activity and sets content view to acivity_main.
+     * it also initializes UI elements.
      *
      * @param savedInstanceState Bundle
      */
@@ -35,18 +33,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        textInputSearch = findViewById(R.id.textInputSearch);
         categorySpinner = findViewById(R.id.categorySpinner);
     }
 
     /**
      * onClick method for home button
      * Takes the user to the main feed on clicking the button btnHome
-     *
      * @param view takes in the view as a parameter
      */
     public void onHomeClicked(View view) {
-
         MainFeed newFragment = new MainFeed();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment, newFragment);
@@ -56,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * onClick method for createPost button
      * takes user to the fragment createPost to add a new item to the store on clicking btnCreatePost.
-     *
      * @param view takes in the view as a parameter
      */
     public void onCreatePostClicked(View view) {
@@ -69,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * onClick method for message button
      * takes user to the MessageScreen fragment where they can send emails to other users on clicking btnMessage
-     *
      * @param view takes in the view as a parameter
      */
     public void onMessageClicked(View view) {
@@ -82,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * onClick method for search button
      * takes user to FindItem fragment to load the search items and category if one is chosen on clicking btnSearch.
-     *
      * @param view takes in the view as a parameter
      */
     public void onSearchClicked(View view) {
@@ -98,9 +91,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @param requestCode  int
-     * @param permissions  String[]
-     * @param grantResults int[]
+     * method called when permissions are requested
+     * @param requestCode  int code of the request made
+     * @param permissions  String[] permissions required
+     * @param grantResults int[] whether permission is granted for each permission
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -118,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * called on results of an activity started for result
      * @param requestCode int
      * @param resultCode  int
      * @param data        Intent

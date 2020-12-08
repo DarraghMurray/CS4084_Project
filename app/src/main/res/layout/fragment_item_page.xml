@@ -109,6 +109,16 @@
                 android:layout_alignEnd="@+id/btnPurchase"
                 android:layout_marginTop="24dp"
                 android:text="Message Seller" />
+
+            <Button
+                android:id="@+id/getDirections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/map"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="40dp"
+                android:text="get directions" />
         </RelativeLayout>
     </ScrollView>
 
