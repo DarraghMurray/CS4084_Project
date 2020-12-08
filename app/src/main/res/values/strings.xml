@@ -18,6 +18,10 @@
         <item>-select a category-</item>
         <item>Phones</item>
         <item>Laptops</item>
+        <item>Shoes</item>
+        <item>Clothes</item>
+        <item>Games Consoles</item>
+        <item>Cars</item>
     </string-array>
     <!--Strings related to CreatePost -->
     <string name="post">Post</string>
