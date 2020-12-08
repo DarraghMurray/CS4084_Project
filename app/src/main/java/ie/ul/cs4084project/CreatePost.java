@@ -38,7 +38,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -52,31 +51,40 @@ public class CreatePost extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    public static final int REQUEST_LOCATION = 4;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    //Text Input Layouts for item name, description and price
     private TextInputLayout textInputName;
     private TextInputLayout textInputDescription;
     private TextInputLayout textInputPrice;
+    //Spinner to choose category
     private Spinner categorySpinner;
+    //ImageView to display selected item image
     private ImageView pickedImage;
+    //Button to let user pick an image
     private Button pickImage;
+    //Uri to store image uri
     private Uri imageUri;
 
+    //request code for getting location
     private int locationRequestCode = 1000;
 
-    private double latitude;
-    private double longitude;
-
+    //Item used to store entered data
     private Item item;
+
+    //variables to access firebase storage to store image
     private FirebaseStorage storage;
     private StorageReference imageRef;
 
+    //request code for picking an image
     private static final int PICK_IMAGE = 100;
 
+    /**
+     * CreatePost default constructor
+     */
     public CreatePost() {
         // Required empty public constructor
     }
@@ -85,8 +93,8 @@ public class CreatePost extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param param1 String Parameter 1.
+     * @param param2 StringParameter 2.
      * @return A new instance of fragment CreatePost.
      */
     // TODO: Rename and change types and number of parameters
@@ -99,6 +107,12 @@ public class CreatePost extends Fragment {
         return fragment;
     }
 
+    /**
+     * initializes variables and gets location permission
+     * if permission is provided it retrieves the item location and adds it to the item being created
+     *
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +141,14 @@ public class CreatePost extends Fragment {
         }
     }
 
+    /**
+     * onCreateView default fragment onCreateView
+     *
+     * @param inflater           LayoutInflater
+     * @param container          ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -134,6 +156,17 @@ public class CreatePost extends Fragment {
         return inflater.inflate(R.layout.fragment_create_post, container, false);
     }
 
+    /**
+     * initializes UI elements
+     * gets Firebase instances and creates a document reference to a new document in posts database
+     * initializes image ref using document ref ID to name the images
+     * Post button on click checks data entered was valid, adds the data to an item and sets document ref to contain the item
+     * then transitions to MainFeed
+     * Pick Image button on click calls openGallery method
+     *
+     * @param view               View
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -191,12 +224,26 @@ public class CreatePost extends Fragment {
         });
     }
 
+    /**
+     * method creates and sends an intent to open a gallery app to pick an image
+     */
     private void openGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         gallery.setType("image/");
         startActivityForResult(gallery, PICK_IMAGE);
     }
 
+    /**
+     * onActivityResult method responds to results of activity started for result
+     * checks what request code was received
+     * checks result code for success
+     * if request is to pick an image and it succeeds it set the image uri to the selected images uri
+     * then calls upload on a byte array of the image data
+     *
+     * @param requestCode int
+     * @param resultCode  int
+     * @param data        Intent
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -210,6 +257,12 @@ public class CreatePost extends Fragment {
         }
     }
 
+    /**
+     * creates an upload task to upload the image to firebase storage
+     * has listeners so that when task is successfully completed image uri can be set to uri of the image in firebase storage
+     *
+     * @param imageData byte[] takes in an images data as byte array
+     */
     private void upload(byte[] imageData) {
         UploadTask uploadTask = imageRef.putBytes(imageData);
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -244,8 +297,13 @@ public class CreatePost extends Fragment {
 
     }
 
+    /**
+     * method checks that an item category was chosen
+     *
+     * @return True if appropriate category chosen, False if nothing selected or select a category is picked
+     */
     private boolean validateCategory() {
-        if (categorySpinner.getSelectedItem().toString().equals("-select a category-")) {
+        if (!categorySpinner.isSelected() && categorySpinner.getSelectedItem().toString().equals("-select a category-")) {
             Toast.makeText(getContext(), "Must select a category", Toast.LENGTH_SHORT).show();
             return false;
         } else {
@@ -253,11 +311,15 @@ public class CreatePost extends Fragment {
         }
     }
 
-    //these three methods validate the post input
+    /**
+     * method checks that item price entered was valid
+     *
+     * @return True if valid, False if invalid
+     */
     private boolean validatePrice() {
         String userInput = textInputName.getEditText().getText().toString();
 
-        if(userInput.isEmpty()) {
+        if (userInput.isEmpty()) {
             textInputName.setError("field can't be empty");
             return false;
         } else {
@@ -266,10 +328,15 @@ public class CreatePost extends Fragment {
         }
     }
 
+    /**
+     * method checks that item description entered was valid
+     *
+     * @return True if valid, False if invalid
+     */
     private boolean validateDescription() {
         String userInput = textInputDescription.getEditText().getText().toString();
 
-        if(userInput.isEmpty()) {
+        if (userInput.isEmpty()) {
             textInputDescription.setError("field can't be empty");
             return false;
         } else {
@@ -278,10 +345,15 @@ public class CreatePost extends Fragment {
         }
     }
 
+    /**
+     * method checks that item name entered was valid
+     *
+     * @return True if valid, False if invalid
+     */
     private boolean validateName() {
         String userInput = textInputPrice.getEditText().getText().toString();
 
-        if(userInput.isEmpty()) {
+        if (userInput.isEmpty()) {
             textInputPrice.setError("field can't be empty");
             return false;
         } else {

@@ -17,13 +17,17 @@ import androidx.annotation.Nullable;
 
 public class LocationFinder extends Service implements LocationListener {
     Context context;
+    //flag for GPS status
     boolean isGPSEnabled = false;
     // flag for network status
     boolean isNetworkEnabled = false;
-    // flag for GPS status
+    // flag to tell if a location can be retrieved
     boolean canGetLocation = false;
+    // the location
     Location location;
+    // location latitude
     double latitude;
+    // location longitude
     double longitude;
 
     // The minimum distance to change Updates in meters
@@ -33,6 +37,11 @@ public class LocationFinder extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
+    /**
+     * LocationFinder gets context and calls getLocation
+     *
+     * @param context Context
+     */
     public LocationFinder(Context context) {
         this.context = context;
         getLocation();
@@ -60,6 +69,11 @@ public class LocationFinder extends Service implements LocationListener {
         return null;
     }
 
+    /**
+     * methods get a location from a provider either network or gps provider and gets co-ordinates
+     *
+     * @return Location location returns provided location
+     */
     @SuppressLint("MissingPermission")
     public Location getLocation() {
         try {
@@ -80,7 +94,6 @@ public class LocationFinder extends Service implements LocationListener {
                     // Log.e(“Network”, “Network”);
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
                         if (location != null) {
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
@@ -110,6 +123,12 @@ public class LocationFinder extends Service implements LocationListener {
         return location;
     }
 
+    /**
+     * getLatitude method checks if location is null
+     * if not it sets latitude to the locations latitude
+     *
+     * @return Double latitude returns current latitude value
+     */
     public double getLatitude() {
         if (location != null) {
             latitude = location.getLatitude();
@@ -117,6 +136,12 @@ public class LocationFinder extends Service implements LocationListener {
         return latitude;
     }
 
+    /**
+     * getLongitude method checks if location is null
+     * if not it sets longitude to the locations longitude
+     *
+     * @return Double longitude returns current longitude value
+     */
     public double getLongitude() {
         if (location != null) {
             longitude = location.getLongitude();
@@ -124,6 +149,11 @@ public class LocationFinder extends Service implements LocationListener {
         return longitude;
     }
 
+    /**
+     * canGetLocation method establishes if a location can be gotten
+     *
+     * @return Boolean canGetLocation True if available location, False if no available location
+     */
     public boolean canGetLocation() {
         return this.canGetLocation;
     }
