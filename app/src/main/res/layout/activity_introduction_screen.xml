@@ -50,6 +50,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/The_Item_Shop_Logo"
-        tools:srcCompat="@drawable/The_Item_Shop_Logo" />
+        app:srcCompat="@drawable/the_item_shop_logo"
+        tools:srcCompat="@drawable/the_item_shop_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

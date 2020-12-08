@@ -3,7 +3,6 @@
     <item>
         <shape android:shape="oval">
             <solid android:color="@color/The_Item_Shop_Logo_Icon_background" />
-            <size android:height="50dp" android:width="50dp" />
         </shape>
     </item>
 </selector>
