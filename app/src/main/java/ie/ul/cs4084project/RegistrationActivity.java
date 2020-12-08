@@ -13,11 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +34,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextInputLayout usernameText, emailText, passwordText;
     //indicates registrtion is progressing
     private ProgressBar progressBar;
+
+    private View rootLayout;
 
     //gets current Auth instance
     private FirebaseAuth mAuth;
@@ -65,6 +70,7 @@ public class RegistrationActivity extends AppCompatActivity {
         //button for registering
         Button regBtn = findViewById(R.id.register);
         progressBar = findViewById(R.id.progressBar);
+        rootLayout = findViewById(android.R.id.content);
 
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,33 +100,24 @@ public class RegistrationActivity extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                try {
-                                    throw task.getException();
-
-                                } catch (FirebaseAuthWeakPasswordException e) {
-                                    passwordText.setError(" Password Too Weak");
-                                    passwordText.requestFocus();
-                                } catch (FirebaseAuthInvalidCredentialsException e) {
-                                    emailText.setError(" Invalid Email");
-                                    emailText.requestFocus();
-                                } catch (FirebaseAuthUserCollisionException e) {
-                                    emailText.setError(" User already exists");
-                                    emailText.requestFocus();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-
-                                Intent intent = new Intent(RegistrationActivity.this, LogIn.class);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-                            }
+                            Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                            Intent intent = new Intent(RegistrationActivity.this, LogIn.class);
+                            startActivity(intent);
                         }
-                    });
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                        Snackbar.make(rootLayout, "Invalid Password too short!", Snackbar.LENGTH_LONG).show();
+                    } else if (e instanceof FirebaseAuthUserCollisionException) {
+                        Snackbar.make(rootLayout, "Registration Failed!", Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(rootLayout, e.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+                    }
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
 
             final FirebaseUser user = mAuth.getCurrentUser();
 
