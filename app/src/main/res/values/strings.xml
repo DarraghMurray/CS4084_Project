@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CS4084 Project</string>
+    <string name="app_name">The Item Shop</string>
 
     <!--Strings related to Sign in and Registration -->
     <string name="sign_in">Sign-In</string>
