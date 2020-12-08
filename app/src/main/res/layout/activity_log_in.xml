@@ -7,25 +7,28 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".LogIn">
+    tools:context=".LogIn"
+    android:background="#000000">
 
     <TextView
         android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:background="#4CAF50"
+        android:background="#8EFB93"
         android:text="@string/account_login" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputEmailSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         android:hint="@string/enter_your_email"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:background="#FFFFFF"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -34,11 +37,13 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_your_password"
         app:errorEnabled="true"
+        android:background="#FFFFFF"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 

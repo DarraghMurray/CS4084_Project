@@ -5,7 +5,8 @@
     android:id="@+id/frameLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ItemPage">
+    tools:context=".ItemPage"
+    android:background="#000000">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:background="#FFFFFF"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="20dp"
                 android:textAlignment="center" />
@@ -29,6 +31,7 @@
                 android:id="@+id/sellerUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:layout_below="@id/itemTitle"
                 android:layout_alignStart="@id/itemTitle"
                 android:layout_alignEnd="@+id/itemTitle"
@@ -49,6 +52,7 @@
                 android:id="@+id/itemPricing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:layout_below="@id/itemTitle"
                 android:layout_marginTop="64dp"
                 android:layout_marginEnd="40dp"
@@ -57,6 +61,7 @@
             <TextView
                 android:id="@+id/itemSign"
                 android:layout_width="12dp"
+                android:background="#FFFFFF"
                 android:layout_height="match_parent"
                 android:layout_alignBaseline="@id/itemPricing"
                 android:layout_marginStart="40dp"
@@ -68,6 +73,7 @@
                 android:id="@+id/itemDescrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:layout_below="@id/itemPageImage"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="24dp"
