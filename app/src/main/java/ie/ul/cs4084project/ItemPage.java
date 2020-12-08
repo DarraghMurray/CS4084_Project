@@ -2,6 +2,7 @@ package ie.ul.cs4084project;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -165,6 +166,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         TextView sellerUser = view.findViewById(R.id.sellerUser);
         Button purchase = view.findViewById(R.id.btnPurchase);
         Button messageSeller = view.findViewById(R.id.btnMessageSeller);
+        Button getDirections = view.findViewById(R.id.getDirections);
         final ImageView itemPageImage = view.findViewById(R.id.itemPageImage);
 
         itemPageItem = getArguments().getParcelable("Item");
@@ -207,6 +209,17 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        getDirections.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uri = String.format("http://maps.google.com/maps?saddr=%f,%f(%s)&daddr=%f,%f (%s)",
+                        userLatitude, userLongitude, "You",
+                        itemPageItem.getLatitude(), itemPageItem.getLongitude(), "Item");
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                intent.setPackage("com.google.android.apps.maps");
+                startActivity(intent);
+            }
+        });
 
         itemTitle.setText(itemPageItem.getName());
         itemDescrip.setText(itemPageItem.getDescription());
@@ -235,6 +248,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         MapsInitializer.initialize(getContext());
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(userLatitude, userLongitude))).setTitle("YOU");
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("ITEM"));
         CameraPosition itemLocation = CameraPosition.builder().target(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).zoom(16).bearing(0).tilt(50).build();
