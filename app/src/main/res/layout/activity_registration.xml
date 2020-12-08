@@ -7,12 +7,13 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="#000000"
     tools:context=".RegistrationActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/actionBarColor"
+        android:background="#82F391"
         android:text="@string/register_new_account" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -22,11 +23,13 @@
         android:hint="@string/enter_your_username"
         app:counterEnabled="true"
         app:counterMaxLength="20"
+        android:background="#FFFFFF"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -34,6 +37,7 @@
         android:id="@+id/textInputEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         android:hint="@string/enter_your_email"
         app:counterEnabled="false"
         app:errorEnabled="true">
@@ -41,12 +45,14 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputPassword"
         android:layout_width="match_parent"
+        android:background="#FFFFFF"
         android:layout_height="wrap_content"
         android:hint="@string/enter_your_password"
         app:counterEnabled="false"
@@ -56,15 +62,16 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_background"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:background="@drawable/lightgreen_button"
         android:text="@string/register"
         android:textStyle="bold" />
 
