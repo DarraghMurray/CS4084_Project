@@ -28,10 +28,10 @@
 
     <Button
         android:id="@+id/btnSearch"
-        android:layout_width="49dp"
-        android:layout_height="42dp"
+        android:layout_width="54dp"
+        android:layout_height="44dp"
         android:layout_marginStart="212dp"
-        android:background="@drawable/search_icon"
+        android:background="@drawable/search"
         android:onClick="onSearchClicked"
         app:layout_constraintEnd_toStartOf="@+id/categorySpinner"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
         android:id="@+id/btnHome"
         android:layout_width="103dp"
         android:layout_height="54dp"
-        android:background="@drawable/home_button_icon_icons_com_72700"
+        android:background="@drawable/home_"
         android:onClick="onHomeClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnCreatePost"
@@ -61,18 +61,19 @@
 
     <Button
         android:id="@+id/btnCreatePost"
-        android:layout_width="95dp"
+        android:layout_width="100dp"
         android:layout_height="54dp"
-        android:background="@drawable/plus_circle_new_create_icon_145948"
+        android:background="@drawable/create"
         android:onClick="onCreatePostClicked"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintStart_toEndOf="@+id/btnHome" />
 
     <Button
         android:id="@+id/btnMessage"
-        android:layout_width="106dp"
-        android:layout_height="52dp"
-        android:background="@drawable/messagebubble_122052"
+        android:layout_width="105dp"
+        android:layout_height="54dp"
+        android:background="@drawable/chat"
         android:drawablePadding="100dp"
         android:onClick="onMessageClicked"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -96,6 +97,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="105dp"
+        android:layout_height="54dp"
+        android:background="@drawable/profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnMessage"
+        app:layout_constraintStart_toEndOf="@+id/btnCreatePost" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
