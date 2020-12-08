@@ -2,3 +2,13 @@
   
   Our app is a google maps-based marketplace app that allows user to buy and sell items using google maps to locate items to pick up
 and set locations for their items to be picked up at. This is dont by getting the users device location upon them creating an item post.
+
+Set Up -
+     The app requires creating an account with an email and password. It also requests a user name which
+     must be provided as well. The email and password are the only required details to log-in to the app.
+     Aside from this there is nothing else needed to access the app features.
+     
+Backend services  -
+      Firebase Project CS4084 Project - https://console.firebase.google.com/project/cs4084-project/overview(Includes Database,Authentication and Storage)
+      Jira Project CS4084 - https://dmur1.atlassian.net/jira/software/projects/CS4084/boards/2
+      Google Cloud Project CS4084 Project - https://console.cloud.google.com/home/dashboard?folder=&organizationId=&project=cs4084-project(Includes Google Maps)
