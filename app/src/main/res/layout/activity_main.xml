@@ -11,23 +11,27 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="407dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="80dp"
         android:background="#000000"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/btnCreatePost"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSearch"
+        app:layout_constraintVertical_bias="0.352"
         app:navGraph="@navigation/nav_graph" />
 
     <Button
         android:id="@+id/btnSearch"
-        android:layout_width="47dp"
-        android:layout_height="48dp"
+        android:layout_width="54dp"
+        android:layout_height="44dp"
         android:layout_marginStart="212dp"
-        android:background="@drawable/search_icon"
+        android:background="@drawable/search"
         android:onClick="onSearchClicked"
         app:layout_constraintEnd_toStartOf="@+id/categorySpinner"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,46 +41,46 @@
         android:id="@+id/categorySpinner"
         android:layout_width="0dp"
         android:layout_height="43dp"
-        android:layout_marginBottom="6dp"
         android:background="#FFFFFF"
         android:entries="@array/categories"
         app:layout_constraintBottom_toTopOf="@+id/fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnSearch"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnHome"
         android:layout_width="103dp"
         android:layout_height="54dp"
-        android:background="@drawable/home_button_icon_icons_com_72700"
+        android:background="@drawable/home_"
         android:onClick="onHomeClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnCreatePost"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnCreatePost"
-        android:layout_width="95dp"
+        android:layout_width="100dp"
         android:layout_height="54dp"
-        android:background="@drawable/plus_circle_new_create_icon_145948"
+        android:background="@drawable/create"
         android:onClick="onCreatePostClicked"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintStart_toEndOf="@+id/btnHome" />
 
     <Button
         android:id="@+id/btnMessage"
-        android:layout_width="106dp"
-        android:layout_height="52dp"
-        android:background="@drawable/messagebubble_122052"
+        android:layout_width="105dp"
+        android:layout_height="54dp"
+        android:background="@drawable/chat"
         android:drawablePadding="100dp"
         android:onClick="onMessageClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/btnCreatePost" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputSearch"
@@ -93,5 +97,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="105dp"
+        android:layout_height="54dp"
+        android:background="@drawable/profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnMessage"
+        app:layout_constraintStart_toEndOf="@+id/btnCreatePost" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
