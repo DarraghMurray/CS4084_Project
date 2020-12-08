@@ -10,9 +10,9 @@
     tools:context=".LogIn">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:background="@color/actionBarColor"
+        android:background="#4CAF50"
         android:text="@string/account_login" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -44,9 +44,9 @@
 
     <Button
         android:id="@+id/logInBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/yellow_button"
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:background="@drawable/lightgreen_button"
         android:text="@string/login" />
 
     <ProgressBar
