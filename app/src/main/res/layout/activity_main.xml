@@ -84,18 +84,20 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputSearch"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="207dp"
+        android:layout_height="50dp"
         android:hint="Search For Items..."
         app:hintEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/fragment"
         app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="39dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

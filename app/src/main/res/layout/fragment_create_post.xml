@@ -21,15 +21,16 @@
                 android:id="@+id/TextInputName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
                 android:layout_marginTop="0dp"
+                android:background="#40873E"
                 android:hint="@string/item_name"
+                android:paddingHorizontal="12dp"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#FFFFFF"/>
+                    android:background="#FFFFFF" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
@@ -52,30 +53,32 @@
                 android:id="@+id/TextInputPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
                 android:layout_marginTop="24dp"
+                android:background="#40873E"
                 android:hint="@string/item_price"
+                android:paddingHorizontal="12dp"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+                    android:layout_width="392dp"
+                    android:layout_height="24dp"
                     android:background="#FFFFFF"
-                    android:layout_height="match_parent"
                     android:inputType="numberSigned|number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/TextInputDescription"
                 android:layout_width="match_parent"
-                android:background="#FFFFFF"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:background="#40873E"
                 android:hint="@string/item_description"
+                android:paddingHorizontal="12dp"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="387dp"
+                    android:layout_height="23dp"
                     android:background="#FFFFFF"
                     android:inputType="text" />
 
@@ -85,8 +88,8 @@
                 android:id="@+id/categorySpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
                 android:layout_marginTop="24dp"
+                android:background="#FFFFFF"
                 android:entries="@array/categories" />
 
             <Button
