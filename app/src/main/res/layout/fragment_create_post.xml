@@ -5,7 +5,8 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreatePost">
+    tools:context=".CreatePost"
+    android:background="#000000">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,13 +21,15 @@
                 android:id="@+id/TextInputName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:layout_marginTop="0dp"
                 android:hint="@string/item_name"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
@@ -42,18 +45,21 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:background="#A7FF87"
                 android:text="Pick Image" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/TextInputPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:layout_marginTop="24dp"
                 android:hint="@string/item_price"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
+                    android:background="#FFFFFF"
                     android:layout_height="match_parent"
                     android:inputType="numberSigned|number" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -61,6 +67,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/TextInputDescription"
                 android:layout_width="match_parent"
+                android:background="#FFFFFF"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:hint="@string/item_description"
@@ -69,6 +76,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="#FFFFFF"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -77,6 +85,7 @@
                 android:id="@+id/categorySpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:layout_marginTop="24dp"
                 android:entries="@array/categories" />
 
@@ -85,6 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="24dp"
+                android:background="#94F679"
                 android:text="@string/post" />
         </LinearLayout>
     </ScrollView>

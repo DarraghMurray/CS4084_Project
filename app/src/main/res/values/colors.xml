@@ -6,7 +6,7 @@
     <color name="colorRed">#FFdd3131</color>
     <color name="colorDarkRed">#FFd81717</color>
     <color name="colorYellow">#FFfdff27</color>
-    <color name="actionBarColor">#FF1de0dd</color>
+    <color name="actionBarColor">#037d50</color>
     <color name="colorBlue">#3734eb</color>
     <color name="colorLighterBlue">#5c59eb</color>
 </resources>
