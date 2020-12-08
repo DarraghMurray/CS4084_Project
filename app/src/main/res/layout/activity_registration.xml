@@ -20,10 +20,11 @@
         android:id="@+id/textInputUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         android:hint="@string/enter_your_username"
+        android:outlineProvider="none"
         app:counterEnabled="true"
         app:counterMaxLength="20"
-        android:background="#FFFFFF"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText

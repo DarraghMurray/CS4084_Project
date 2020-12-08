@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editText = findViewById(R.id.textInputSearch);
+
         categorySpinner = findViewById(R.id.categorySpinner);
     }
 
