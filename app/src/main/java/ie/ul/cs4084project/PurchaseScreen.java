@@ -24,6 +24,9 @@ public class PurchaseScreen extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * PurchaseScreen default constructor
+     */
     public PurchaseScreen() {
         // Required empty public constructor
     }
@@ -32,8 +35,8 @@ public class PurchaseScreen extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param param1 String Parameter 1.
+     * @param param2 String Parameter 2.
      * @return A new instance of fragment PurchaseScreen.
      */
     // TODO: Rename and change types and number of parameters
@@ -46,6 +49,11 @@ public class PurchaseScreen extends Fragment {
         return fragment;
     }
 
+    /**
+     * onCreate default fragment onCreate method
+     *
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +63,14 @@ public class PurchaseScreen extends Fragment {
         }
     }
 
+    /**
+     * onCreateView default fragment onCreateView
+     *
+     * @param inflater           LayoutInflater
+     * @param container          ViewGroup
+     * @param savedInstanceState Bundle
+     * @return returns inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
