@@ -2,6 +2,7 @@ package ie.ul.cs4084project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -10,12 +11,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 import java.util.regex.Pattern;
 
@@ -35,6 +41,8 @@ public class LogIn extends AppCompatActivity {
     private TextInputLayout textInputEmailSignIn, textInputPasswordSignIn;
     //indicates login is progressing
     private ProgressBar progressBar;
+
+    private View rootLayout;
 
     //gets current Auth instance
     private FirebaseAuth mAuth;
@@ -58,6 +66,7 @@ public class LogIn extends AppCompatActivity {
         //button for log in
         Button loginBtn = findViewById(R.id.logInBtn);
         progressBar = findViewById(R.id.progressBar);
+        rootLayout = findViewById(android.R.id.content);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,18 +94,28 @@ public class LogIn extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-
-                                Intent intent = new Intent(LogIn.this, MainActivity.class);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Login failed! Please try again later", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-                            }
+                            Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                            Intent intent = new Intent(LogIn.this, MainActivity.class);
+                            startActivity(intent);
                         }
-                    });
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                        Snackbar.make(rootLayout, "Invalid password too short!", Snackbar.LENGTH_LONG).show();
+                    } else if (e instanceof FirebaseAuthInvalidUserException) {
+                        String errorCode = ((FirebaseAuthInvalidUserException) e).getErrorCode();
+                        if (errorCode.equals("ERROR_USER_NOT_FOUND")) {
+                            Snackbar.make(rootLayout, "No Matching Account Found!", Snackbar.LENGTH_LONG).show();
+                        } else if (errorCode.equals("ERROR_USER_DISABLED")) {
+                            Snackbar.make(rootLayout, "User Account has been disabled!", Snackbar.LENGTH_LONG).show();
+                        } else {
+                            Snackbar.make(rootLayout, e.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            });
         }
     }
 
