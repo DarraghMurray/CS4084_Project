@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 
 public class LogIn extends AppCompatActivity {
 
+    //pattern for password checking
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[0-9])" +
@@ -30,10 +31,14 @@ public class LogIn extends AppCompatActivity {
                     ".{6,}" +
                     "$");
 
+    //TextInputs from the layout
     private TextInputLayout textInputEmailSignIn, textInputPasswordSignIn;
+    //button for log in
     private Button loginBtn;
+    //indicates login is progressing
     private ProgressBar progressBar;
 
+    //gets current Auth instance
     private FirebaseAuth mAuth;
 
     /**
@@ -99,7 +104,6 @@ public class LogIn extends AppCompatActivity {
 
     /**
      * Method checks that the entered password was valid.
-     *
      * @param password String contains text of users input password.
      * @return True if valid, False if invalid.
      */
@@ -118,7 +122,6 @@ public class LogIn extends AppCompatActivity {
 
     /**
      * Method checks that entered email was valid.
-     *
      * @param email String contains text of users input email.
      * @return True if valid, False if invalid.
      */

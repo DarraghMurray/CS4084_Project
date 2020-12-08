@@ -36,12 +36,14 @@
                 android:textAlignment="center" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/itemPageImage"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_below="@id/sellerUser"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="24dp" />
+                android:layout_marginTop="24dp"
+                app:srcCompat="@drawable/no_image_available_icon"
+                tools:srcCompat="@drawable/no_image_available_icon" />
 
             <TextView
                 android:id="@+id/itemPricing"
@@ -58,7 +60,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignBaseline="@id/itemPricing"
                 android:layout_marginStart="40dp"
-                android:layout_toEndOf="@id/imageView2"
+                android:layout_toEndOf="@id/itemPageImage"
                 android:text="@string/Euro"
                 android:textAlignment="center" />
 
@@ -66,7 +68,7 @@
                 android:id="@+id/itemDescrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imageView2"
+                android:layout_below="@id/itemPageImage"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="20dp" />
@@ -86,10 +88,21 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="48dp"
                 android:layout_marginEnd="20dp"
-                android:layout_toEndOf="@id/imageView2"
-                android:background="@drawable/ic_launcher_background"
+
+                android:layout_toEndOf="@id/itemPageImage"
+                android:background="@drawable/buy_button"
                 android:text="@string/buy"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnMessageSeller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPurchase"
+                android:layout_alignStart="@+id/btnPurchase"
+                android:layout_alignEnd="@+id/btnPurchase"
+                android:layout_marginTop="24dp"
+                android:text="Message Seller" />
         </RelativeLayout>
     </ScrollView>
 

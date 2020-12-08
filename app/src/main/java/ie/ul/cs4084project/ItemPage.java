@@ -1,11 +1,15 @@
 package ie.ul.cs4084project;
 
 
-import android.nfc.Tag;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -14,8 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -26,6 +32,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
@@ -49,6 +57,11 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private double userLatitude;
+    private double userLongitude;
+
+    private int locationRequestCode = 1000;
 
     GoogleMap mGoogleMap;
     View mview;
@@ -84,6 +97,23 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ((MainActivity) getActivity()).permission = false;
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, locationRequestCode);
+        } else {
+            LocationFinder finder;
+            finder = new LocationFinder(getContext());
+            if (finder.canGetLocation()) {
+                userLatitude = finder.getLatitude();
+                userLongitude = finder.getLongitude();
+                Log.d("DDDDDDDDDdd", finder.getLatitude() + " " + finder.getLongitude());
+            } else {
+                finder.showSettingsAlert();
+            }
+        }
     }
 
     @Override
@@ -103,8 +133,11 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         TextView itemPricing = view.findViewById(R.id.itemPricing);
         TextView sellerUser = view.findViewById(R.id.sellerUser);
         Button purchase = view.findViewById(R.id.btnPurchase);
+        Button messageSeller = view.findViewById(R.id.btnMessageSeller);
+        final ImageView itemPageImage = view.findViewById(R.id.itemPageImage);
 
         itemPageItem = getArguments().getParcelable("Item");
+        final String email = itemPageItem.getSellerContact();
 
         purchase.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -129,11 +162,28 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        messageSeller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MessageScreen newFragment = new MessageScreen();
+                Bundle args = new Bundle();
+                args.putString("sellerEmail", email);
+                System.out.println(args.getString("sellerEmail"));
+                newFragment.setArguments(args);
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment, newFragment);
+                ft.commit();
+            }
+        });
+
 
         itemTitle.setText(itemPageItem.getName());
         itemDescrip.setText(itemPageItem.getDescription());
         itemPricing.setText(Double.toString(itemPageItem.getPrice()));
-        sellerUser.setText(itemPageItem.getName());
+        sellerUser.setText(itemPageItem.getSellerName());
+        if (!(itemPageItem.getItemImage() == null)) {
+            Glide.with(getContext()).load(Uri.parse(itemPageItem.getItemImage())).into(itemPageImage);
+        }
 
         mMapView = (MapView) mview.findViewById(R.id.map);
         if (mMapView != null) {
@@ -148,7 +198,8 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         MapsInitializer.initialize(getContext());
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("Item Location"));
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(userLatitude, userLongitude))).setTitle("YOU");
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("ITEM"));
         CameraPosition itemLocation = CameraPosition.builder().target(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).zoom(16).bearing(0).tilt(50).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(itemLocation));
     }

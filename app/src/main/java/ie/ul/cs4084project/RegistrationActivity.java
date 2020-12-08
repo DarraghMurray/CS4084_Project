@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
@@ -28,12 +27,17 @@ import java.util.regex.Pattern;
 
 public class RegistrationActivity extends AppCompatActivity {
 
+    //TextInputs from Layout
     private TextInputLayout usernameText, emailText, passwordText;
+    //button for registering
     private Button regBtn;
+    //indicates registrtion is progressing
     private ProgressBar progressBar;
 
+    //gets current Auth instance
     private FirebaseAuth mAuth;
 
+    //pattern for checking password
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[0-9])" +
@@ -43,6 +47,14 @@ public class RegistrationActivity extends AppCompatActivity {
                     ".{6,}" +
                     "$");
 
+    /**
+     * onCreate method creates activity and sets content view to activity_log_in
+     * It initializes mAuth to get FirebaseAuth instance
+     * It initializes UI element declarations to their respective UI elements in the layout file
+     * It sets the OnClickListener for the regBtn so it calls the method RegisterNewUser() on click
+     *
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +76,12 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method places text from textInputLayouts into strings
+     * It checks that these are valid by calling validateEmail, validatePassword and validateName with their respective text strings as parameters
+     * It then calls the FirebaseAuth method createUserWithEmailAndPassword() with both strings as parameters to attempt Registration
+     * It then updates users profiles with their chosen user name as the display name
+     */
     private void registerNewUser() {
 
         final String name, email, password;
@@ -79,21 +97,21 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                    try {
-                                            throw task.getException();
+                                try {
+                                    throw task.getException();
 
-                                    } catch (FirebaseAuthWeakPasswordException e) {
-                                        passwordText.setError(" Password Too Weak");
-                                        passwordText.requestFocus();
-                                    } catch (FirebaseAuthInvalidCredentialsException e) {
-                                        emailText.setError(" Invalid Email");
-                                        emailText.requestFocus();
-                                    } catch (FirebaseAuthUserCollisionException e) {
-                                        emailText.setError(" User already exists");
-                                        emailText.requestFocus();
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                } catch (FirebaseAuthWeakPasswordException e) {
+                                    passwordText.setError(" Password Too Weak");
+                                    passwordText.requestFocus();
+                                } catch (FirebaseAuthInvalidCredentialsException e) {
+                                    emailText.setError(" Invalid Email");
+                                    emailText.requestFocus();
+                                } catch (FirebaseAuthUserCollisionException e) {
+                                    emailText.setError(" User already exists");
+                                    emailText.requestFocus();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                                 Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
 
@@ -106,7 +124,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         }
                     });
 
-            FirebaseUser user = mAuth.getCurrentUser();
+            final FirebaseUser user = mAuth.getCurrentUser();
 
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(name)
@@ -117,7 +135,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Log.d("user", "User profile updated.");
+                                Log.d("user", "User profile updated. " + user.getDisplayName());
                             }
                         }
                     });
@@ -125,8 +143,14 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method checks that the entered password was valid.
+     *
+     * @param password String contains text of users input password.
+     * @return True if valid, False if invalid.
+     */
     private boolean validatePassword(String password) {
-        if(password.isEmpty()) {
+        if (password.isEmpty()) {
             passwordText.setError("field can't be empty");
             return false;
         } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
@@ -138,11 +162,17 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method checks that entered email was valid.
+     *
+     * @param email String contains text of users input email.
+     * @return True if valid, False if invalid.
+     */
     private boolean validateEmail(String email) {
-        if(email.isEmpty()) {
+        if (email.isEmpty()) {
             emailText.setError("field can't be empty");
             return false;
-        }else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailText.setError("please enter a valid email address");
             return false;
         } else {
@@ -151,11 +181,17 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method checks that entered name was valid.
+     *
+     * @param name String contains text of users input user name.
+     * @return True if valid, False if invalid.
+     */
     private boolean validateName(String name) {
-        if(name.isEmpty()) {
+        if (name.isEmpty()) {
             usernameText.setError("field can't be empty");
             return false;
-        } else if(name.length() > 19) {
+        } else if (name.length() > 19) {
             usernameText.setError("username 20 characters or less");
             return false;
         } else {
