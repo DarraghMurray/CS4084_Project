@@ -18,6 +18,7 @@
         <item>-select a category-</item>
         <item>Phones</item>
         <item>Laptops</item>
+        <item>Shoes</item>
     </string-array>
     <!--Strings related to CreatePost -->
     <string name="post">Post</string>
