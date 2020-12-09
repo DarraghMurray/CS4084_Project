@@ -158,6 +158,9 @@ public class LocationFinder extends Service implements LocationListener {
         return this.canGetLocation;
     }
 
+    /**
+     * showSettingsAlert will alert the user if gps is not enabled and prompt them to go into settings or cancel
+     */
     public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("GPS settings");
