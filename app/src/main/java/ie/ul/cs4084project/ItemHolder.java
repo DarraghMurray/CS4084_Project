@@ -19,7 +19,6 @@ public class ItemHolder extends RecyclerView.ViewHolder {
 
     /**
      * ItemHolder default ItemHolder constructor initializes all UI elements
-     *
      * @param itemView final View
      */
     public ItemHolder(@NonNull final View itemView) {

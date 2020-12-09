@@ -140,7 +140,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item id
-     *
      * @param id String item id
      */
     public void setId(String id) {
@@ -149,7 +148,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item name
-     *
      * @param name String item name
      */
     public void setName(String name) {
@@ -158,7 +156,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item description
-     *
      * @param description String item description
      */
     public void setDescription(String description) {
@@ -167,7 +164,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item price
-     *
      * @param price Double item price
      */
     public void setPrice(double price) {
@@ -176,7 +172,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item category
-     *
      * @param category String item category
      */
     public void setCategory(String category) {
@@ -185,7 +180,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item latitude
-     *
      * @param latitude Double item latitude
      */
     public void setLatitude(double latitude) {
@@ -194,7 +188,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item longitude
-     *
      * @param longitude Double item latitude
      */
     public void setLongitude(double longitude) {
@@ -203,7 +196,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item timeStamp
-     *
      * @param timeStamp Date item time stamp
      */
     public void setTimeStamp(Date timeStamp) {
@@ -212,7 +204,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item seller user name
-     *
      * @param sellerName String seller user name
      */
     public void setSellerName(String sellerName) {
@@ -221,7 +212,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item image Uri
-     *
      * @param itemImage String item image Uri
      */
     public void setItemImage(String itemImage) {
@@ -230,7 +220,6 @@ public class Item implements Parcelable {
 
     /**
      * method sets item seller email
-     *
      * @param sellerContact String seller email
      */
     public void setSellerContact(String sellerContact) {
@@ -245,7 +234,6 @@ public class Item implements Parcelable {
 
     /**
      * method writes item attributes to parcel
-     *
      * @param dest  Parcel to store item data
      * @param flags int
      */

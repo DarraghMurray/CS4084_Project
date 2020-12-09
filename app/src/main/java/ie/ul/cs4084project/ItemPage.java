@@ -9,12 +9,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,10 +36,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Locale;
 
-import static android.content.ContentValues.TAG;
+import io.grpc.Context;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,8 +67,11 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     private double userLongitude;
 
     //request code for location
-    private int locationRequestCode = 1000;
 
+    private StorageReference storeRef;
+    private FirebaseStorage firebaseStorage;
+
+    //gets rootLayout for snackbars
     private View rootLayout;
 
     //GoogleMap
@@ -77,10 +80,9 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
 
     //item for item page user is on
     private Item itemPageItem;
+
     private FirebaseFirestore firestoreInstance;
 
-    private boolean userLocationPermission = true;
-    private boolean itemHasLocation = true;
 
     /**
      * ItemPage default constructor
@@ -121,11 +123,6 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        userLatitude = ((MainActivity) getActivity()).getLatitude();
-        userLongitude = ((MainActivity) getActivity()).getLongitude();
-
-        userLocationPermission = userLatitude != 1000 || userLongitude != 1000;
-
     }
 
     /**
@@ -148,9 +145,10 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
      * initializes UI elements
      * gets itemPageItem from a parcel argument and seller contact email
      * Purchase button on click gets Firestore instance and deletes the item in database with the ID of this item
-     * then transitions to purchase screen
+     * then transitions to purchase screen and it also deletes the image in firebaseStorage
      * Message Seller button on click transitions to message screen taking seller contact email as an argument
      * After the on clicks it sets up textView text, image in ImageView and a google map
+     * get directions button on click opens google maps if locations are available
      *
      * @param view               View
      * @param savedInstanceState Bundle
@@ -169,10 +167,13 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         final ImageView itemPageImage = view.findViewById(R.id.itemPageImage);
         rootLayout = getActivity().findViewById(android.R.id.content);
         firestoreInstance = FirebaseFirestore.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
 
         itemPageItem = getArguments().getParcelable("Item");
-        itemHasLocation = itemPageItem.getLatitude() != 1000 || itemPageItem.getLongitude() != 1000;
         final String email = itemPageItem.getSellerContact();
+
+        userLatitude = ((MainActivity) getActivity()).getLatitude();
+        userLongitude = ((MainActivity) getActivity()).getLongitude();
 
         purchase.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -183,6 +184,20 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.getResult().exists()) {
+                                    if (!(itemPageItem.getItemImage() != null)) {
+                                        storeRef = firebaseStorage.getReferenceFromUrl(task.getResult().getId());
+                                        storeRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // File deleted successfully
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception exception) {
+                                                // Uh-oh, an error occurred!
+                                            }
+                                        });
+                                    }
                                     firestoreInstance.collection("posts").document(itemPageItem.getId()).delete()
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -223,14 +238,12 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         getDirections.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (itemHasLocation) {
                     String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f(%s)&daddr=%f,%f (%s)",
                             userLatitude, userLongitude, "You",
                             itemPageItem.getLatitude(), itemPageItem.getLongitude(), "Item");
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                     intent.setPackage("com.google.android.apps.maps");
                     startActivity(intent);
-                }
             }
         });
 
@@ -255,7 +268,6 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     /**
      * initializes map and sets up markers for the item and user location
      * moves camera to the item marker location
-     *
      * @param googleMap GoogleMap
      */
     @Override
@@ -265,13 +277,9 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-        if (userLocationPermission) {
-            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(userLatitude, userLongitude))).setTitle("YOU");
-        }
-        if (itemHasLocation) {
-            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("ITEM"));
-            CameraPosition itemLocation = CameraPosition.builder().target(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).zoom(4).bearing(0).tilt(50).build();
-            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(itemLocation));
-        }
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(userLatitude, userLongitude))).setTitle("YOU");
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("ITEM"));
+        CameraPosition itemLocation = CameraPosition.builder().target(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).zoom(4).bearing(0).tilt(50).build();
+        mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(itemLocation));
     }
 }

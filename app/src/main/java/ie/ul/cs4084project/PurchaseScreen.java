@@ -67,7 +67,6 @@ public class PurchaseScreen extends Fragment {
 
     /**
      * onCreateView default fragment onCreateView
-     *
      * @param inflater           LayoutInflater
      * @param container          ViewGroup
      * @param savedInstanceState Bundle

@@ -41,7 +41,7 @@ public class LogIn extends AppCompatActivity {
     private TextInputLayout textInputEmailSignIn, textInputPasswordSignIn;
     //indicates login is progressing
     private ProgressBar progressBar;
-
+    //get the rootLayout to display snackbars
     private View rootLayout;
 
     //gets current Auth instance

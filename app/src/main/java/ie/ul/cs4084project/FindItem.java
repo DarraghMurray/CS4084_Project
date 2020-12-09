@@ -55,6 +55,7 @@ public class FindItem extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    //recycler adapter
     private FirestoreRecyclerAdapter adapter;
 
     /**
@@ -83,7 +84,6 @@ public class FindItem extends Fragment {
 
     /**
      * onCreate default fragment onCreate
-     *
      * @param savedInstanceState Bundle
      */
     @Override
@@ -114,7 +114,6 @@ public class FindItem extends Fragment {
 
     /**
      * onCreateView default fragment onCreateView
-     *
      * @param inflater           LayoutInflater
      * @param container          ViewGroup
      * @param savedInstanceState Bundle
@@ -193,7 +192,6 @@ public class FindItem extends Fragment {
 
             /**
              * onCreateViewHolder default onCreateViewHolder method
-             *
              * @param parent   ViewGroup
              * @param viewType int
              * @return new ItemHolder
