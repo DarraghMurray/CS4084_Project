@@ -146,16 +146,9 @@ public class FindItem extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Query query;
         if (getArguments().getString("Category") != null) {
-            if (getArguments().getString("searchTerm") == null) {
-                query = db.collection("posts").whereEqualTo("category", getArguments().getString("Category"))
-                        .orderBy("timeStamp", Query.Direction.DESCENDING);
-            } else {
-                String searchTerm = getArguments().getString("searchTerm");
-                query = db.collection("posts").whereEqualTo("category", getArguments().getString("Category"))
-                        .orderBy("timeStamp", Query.Direction.DESCENDING).whereGreaterThanOrEqualTo("name", searchTerm)
-                        .whereLessThanOrEqualTo("name", searchTerm + "uF7FF");
-                ;
-            }
+            query = db.collection("posts")
+                    .whereEqualTo("category", getArguments().getString("Category"))
+                    .orderBy("timeStamp", Query.Direction.DESCENDING);
         } else {
             String searchTerm = getArguments().getString("searchTerm");
             query = db.collection("posts").whereGreaterThanOrEqualTo("name", searchTerm)

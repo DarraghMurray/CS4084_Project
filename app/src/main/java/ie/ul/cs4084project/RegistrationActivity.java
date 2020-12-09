@@ -130,7 +130,6 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Log.d("user", "User profile updated. " + user.getDisplayName());
                             }
                         }
                     });

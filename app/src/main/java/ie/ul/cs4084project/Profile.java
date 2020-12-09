@@ -177,7 +177,6 @@ public class Profile extends Fragment {
 
     private void reLog() {
         List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
-
         startActivityForResult(
                 AuthUI.getInstance().createSignInIntentBuilder()
                         .setAvailableProviders(providers).build(), RC_RE_LOG);

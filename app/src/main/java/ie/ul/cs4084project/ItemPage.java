@@ -32,8 +32,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -77,6 +79,9 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     private Item itemPageItem;
     private FirebaseFirestore firestoreInstance;
 
+    private boolean userLocationPermission = true;
+    private boolean itemHasLocation = true;
+
     /**
      * ItemPage default constructor
      */
@@ -116,15 +121,11 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ((MainActivity) getActivity()).permission = false;
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION}, locationRequestCode);
-        } else {
-            userLatitude = ((MainActivity) getActivity()).getLatitude();
-            userLongitude = ((MainActivity) getActivity()).getLongitude();
-        }
+        userLatitude = ((MainActivity) getActivity()).getLatitude();
+        userLongitude = ((MainActivity) getActivity()).getLongitude();
+
+        userLocationPermission = userLatitude != 1000 || userLongitude != 1000;
+
     }
 
     /**
@@ -170,33 +171,38 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         firestoreInstance = FirebaseFirestore.getInstance();
 
         itemPageItem = getArguments().getParcelable("Item");
+        itemHasLocation = itemPageItem.getLatitude() != 1000 || itemPageItem.getLongitude() != 1000;
         final String email = itemPageItem.getSellerContact();
 
         purchase.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //"Item ID" is the auto-generated ID from firestore, was unable to retrieve
-                DocumentSnapshot ref = firestoreInstance.collection("posts").document(itemPageItem.getId()).get().getResult();
-                if (ref.exists()) {
-                    firestoreInstance.collection("posts").document(itemPageItem.getId()).delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    PurchaseScreen newFragment = new PurchaseScreen();
-                                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                    ft.replace(R.id.fragment, newFragment);
-                                    ft.commit();
-                                    Log.d(TAG, "onSuccess: Deleted document");
+                DocumentSnapshot ref;
+                firestoreInstance.collection("posts").document(itemPageItem.getId()).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.getResult().exists()) {
+                                    firestoreInstance.collection("posts").document(itemPageItem.getId()).delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    PurchaseScreen newFragment = new PurchaseScreen();
+                                                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                                    ft.replace(R.id.fragment, newFragment);
+                                                    ft.commit();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Snackbar.make(rootLayout, "Purchase Error", Snackbar.LENGTH_LONG).show();
+                                        }
+                                    });
+                                } else {
+                                    Snackbar.make(rootLayout, "Item has been purchased by another user", Snackbar.LENGTH_LONG).show();
                                 }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.e(TAG, "onFailure: Failed to delete", e);
-                                }
-                            });
-                } else {
-                    Snackbar.make(rootLayout, "Item has been purchased by another user", Snackbar.LENGTH_LONG).show();
-                }
+                            }
+                        });
             }
         });
 
@@ -217,12 +223,14 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         getDirections.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f(%s)&daddr=%f,%f (%s)",
-                        userLatitude, userLongitude, "You",
-                        itemPageItem.getLatitude(), itemPageItem.getLongitude(), "Item");
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                intent.setPackage("com.google.android.apps.maps");
-                startActivity(intent);
+                if (itemHasLocation) {
+                    String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f(%s)&daddr=%f,%f (%s)",
+                            userLatitude, userLongitude, "You",
+                            itemPageItem.getLatitude(), itemPageItem.getLongitude(), "Item");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    intent.setPackage("com.google.android.apps.maps");
+                    startActivity(intent);
+                }
             }
         });
 
@@ -232,6 +240,8 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         sellerUser.setText(itemPageItem.getSellerName());
         if (!(itemPageItem.getItemImage() == null)) {
             Glide.with(getContext()).load(Uri.parse(itemPageItem.getItemImage())).into(itemPageImage);
+        } else {
+            itemPageImage.setImageResource(R.drawable.no_image_available_icon);
         }
 
         mMapView = (MapView) mview.findViewById(R.id.map);
@@ -254,9 +264,14 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(userLatitude, userLongitude))).setTitle("YOU");
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("ITEM"));
-        CameraPosition itemLocation = CameraPosition.builder().target(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).zoom(16).bearing(0).tilt(50).build();
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(itemLocation));
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+        if (userLocationPermission) {
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(userLatitude, userLongitude))).setTitle("YOU");
+        }
+        if (itemHasLocation) {
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).title("ITEM"));
+            CameraPosition itemLocation = CameraPosition.builder().target(new LatLng(itemPageItem.getLatitude(), itemPageItem.getLongitude())).zoom(4).bearing(0).tilt(50).build();
+            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(itemLocation));
+        }
     }
 }
