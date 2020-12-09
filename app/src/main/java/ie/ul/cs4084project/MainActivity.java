@@ -1,34 +1,40 @@
 package ie.ul.cs4084project;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 1000;
     //text input from the layout
     private TextInputLayout textInputSearch;
     //spinner for categories;
     private Spinner categorySpinner;
 
     protected LocationManager locationManager;
-    protected LocationListener locationListener;
     protected double latitude, longitude;
     protected boolean gps_enabled, network_enabled;
 
@@ -45,18 +51,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        checkLocationPermission();
+
         textInputSearch = findViewById(R.id.textInputSearch);
         categorySpinner = findViewById(R.id.categorySpinner);
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (categorySpinner.isSelected() && !categorySpinner.getSelectedItem().equals("-select a category-")) {
+                if (!categorySpinner.getSelectedItem().toString().equals("-select a category-")) {
                     FindItem newFragment = new FindItem();
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     Bundle args = new Bundle();
@@ -64,14 +68,55 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     newFragment.setArguments(args);
                     ft.replace(R.id.fragment, newFragment);
                     ft.commit();
+                } else {
+                    MainFeed newFragment = new MainFeed();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment, newFragment);
+                    ft.commit();
+                    ft.addToBackStack("MainFeed");
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            //Title bar back press triggers onBackPressed()
+            onBackPressed();
+            return true;
+        } else if (menuItem.getItemId() == R.id.signOut) {
+            signOut();
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, LogIn.class);
+        startActivity(intent);
+        finish();
+    }
+
+    //Both navigation bar back press and title bar back press will trigger this method
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public double getLatitude() {
@@ -93,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment, newFragment);
         ft.commit();
+        ft.addToBackStack("MainFeed");
     }
 
     /**
@@ -105,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment, newFragment);
         ft.commit();
+        ft.addToBackStack("CreatePost");
     }
 
     /**
@@ -117,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment, newFragment);
         ft.commit();
+        ft.addToBackStack("Message");
     }
 
     /**
@@ -125,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
      * @param view takes in the view as a parameter
      */
     public void onSearchClicked(View view) {
-        if (!(textInputSearch.getEditText().getText().toString() == "")) {
+        if (!(textInputSearch.getEditText().getText().toString().equals(""))) {
             FindItem newFragment = new FindItem();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             Bundle args = new Bundle();
@@ -133,6 +181,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             newFragment.setArguments(args);
             ft.replace(R.id.fragment, newFragment);
             ft.commit();
+            ft.addToBackStack("FindItem");
+        } else {
+            MainFeed newFragment = new MainFeed();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment, newFragment);
+            ft.commit();
+            ft.addToBackStack("MainFeed");
         }
     }
 
@@ -141,6 +196,37 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment, newFragment);
         ft.commit();
+        ft.addToBackStack("Profile");
+    }
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                new AlertDialog.Builder(this).setTitle(R.string.title_location_permission)
+                        .setMessage(R.string.text_location_permission)
+                        .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        }).create().show();
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
+                        , MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -151,17 +237,29 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
      * @param grantResults int[] whether permission is granted for each permission
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case 1000: {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        //Request location updates:
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                    } else {
+                        latitude = 1000;
+                        longitude = 1000;
+                    }
                 } else {
                 }
-                break;
+                return;
             }
+
         }
     }
 
