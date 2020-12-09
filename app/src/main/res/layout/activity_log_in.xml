@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="vertical"
+    android:paddingHorizontal="3dp"
+    android:paddingVertical="1dp"
     android:padding="16dp"
     tools:context=".LogIn"
     android:background="#000000">
@@ -18,31 +20,34 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputEmailSignIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        android:layout_width="380dp"
+        android:layout_height="39dp"
+        android:background="#40873E"
         android:hint="@string/enter_your_email"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="1dp"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:background="#FFFFFF"/>
+            android:layout_width="356dp"
+            android:layout_height="23dp"
+            android:background="#FFFFFF"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputPasswordSignIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="381dp"
+        android:layout_height="51dp"
+        android:background="#40873E"
         android:hint="@string/enter_your_password"
+        android:paddingHorizontal="12dp"
         app:errorEnabled="true"
-        android:background="#FFFFFF"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="354dp"
+            android:layout_height="30dp"
             android:background="#FFFFFF"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
