@@ -12,6 +12,7 @@
     <string name="login">Login</string>
     <string name="register_new_account">Register new account</string>
     <string name="register">Register</string>
+    <string name="the_item_shop_logo">The Item Shop Logo</string>
     <!--Strings related to Main Activity -->
     <string name="search...">Search...</string>
     <string-array name="categories">
@@ -45,4 +46,9 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="google_map_api_key">AIzaSyC_Epve3szsK-sWLU-snsUlp3iWWmT8f7Q</string>
+    <string name="logout">Sign-Out</string>
+    <string name="accept">Accept</string>
+    <string name="title_location_permission">Location Permission</string>
+    <string name="text_location_permission">Permission Required For Location Services</string>
+    <string name="search_for_items">Search For Items...</string>
 </resources>

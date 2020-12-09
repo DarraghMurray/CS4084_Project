@@ -43,8 +43,11 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_below="@id/itemDescrip"
+                android:layout_alignBottom="@+id/btnMessageSeller"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginBottom="-4dp"
                 app:srcCompat="@drawable/no_image_available_icon"
                 tools:srcCompat="@drawable/no_image_available_icon" />
 
@@ -52,11 +55,12 @@
                 android:id="@+id/itemPricing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
                 android:layout_below="@id/itemTitle"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="64dp"
                 android:layout_marginEnd="40dp"
-                android:layout_toEndOf="@id/itemSign" />
+                android:layout_toEndOf="@id/itemSign"
+                android:background="#FFFFFF" />
 
             <TextView
                 android:id="@+id/itemSign"
@@ -73,11 +77,13 @@
                 android:id="@+id/sellerUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
                 android:layout_below="@id/itemPageImage"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="20dp" />
+                android:layout_marginEnd="20dp"
+                android:background="#FFFFFF" />
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/map"
@@ -115,9 +121,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/map"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="40dp"
-                android:layout_marginStart="40dp"
                 android:text="get directions" />
         </RelativeLayout>
     </ScrollView>
