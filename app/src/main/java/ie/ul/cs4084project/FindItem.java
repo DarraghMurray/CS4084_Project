@@ -144,9 +144,23 @@ public class FindItem extends Fragment {
         itemSearchFeed.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Query query = db.collection("posts").whereEqualTo("category", getArguments().getString("Category")).orderBy("timeStamp", Query.Direction.DESCENDING);
-
+        Query query;
+        if (getArguments().getString("Category") != null) {
+            if (getArguments().getString("searchTerm") == null) {
+                query = db.collection("posts").whereEqualTo("category", getArguments().getString("Category"))
+                        .orderBy("timeStamp", Query.Direction.DESCENDING);
+            } else {
+                String searchTerm = getArguments().getString("searchTerm");
+                query = db.collection("posts").whereEqualTo("category", getArguments().getString("Category"))
+                        .orderBy("timeStamp", Query.Direction.DESCENDING).whereGreaterThanOrEqualTo("name", searchTerm)
+                        .whereLessThanOrEqualTo("name", searchTerm + "uF7FF");
+                ;
+            }
+        } else {
+            String searchTerm = getArguments().getString("searchTerm");
+            query = db.collection("posts").whereGreaterThanOrEqualTo("name", searchTerm)
+                    .whereLessThanOrEqualTo("name", searchTerm + "uF7FF");
+        }
         FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
                 .setQuery(query, Item.class)
                 .build();

@@ -34,11 +34,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Objects;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -67,12 +67,15 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
     //request code for location
     private int locationRequestCode = 1000;
 
+    private View rootLayout;
+
     //GoogleMap
     private GoogleMap mGoogleMap;
     View mview;
 
     //item for item page user is on
     private Item itemPageItem;
+    private FirebaseFirestore firestoreInstance;
 
     /**
      * ItemPage default constructor
@@ -119,15 +122,8 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION}, locationRequestCode);
         } else {
-            LocationFinder finder;
-            finder = new LocationFinder(getContext());
-            if (finder.canGetLocation()) {
-                userLatitude = finder.getLatitude();
-                userLongitude = finder.getLongitude();
-                Log.d("DDDDDDDDDdd", finder.getLatitude() + " " + finder.getLongitude());
-            } else {
-                finder.showSettingsAlert();
-            }
+            userLatitude = ((MainActivity) getActivity()).getLatitude();
+            userLongitude = ((MainActivity) getActivity()).getLongitude();
         }
     }
 
@@ -170,6 +166,8 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         Button messageSeller = view.findViewById(R.id.btnMessageSeller);
         Button getDirections = view.findViewById(R.id.getDirections);
         final ImageView itemPageImage = view.findViewById(R.id.itemPageImage);
+        rootLayout = getActivity().findViewById(android.R.id.content);
+        firestoreInstance = FirebaseFirestore.getInstance();
 
         itemPageItem = getArguments().getParcelable("Item");
         final String email = itemPageItem.getSellerContact();
@@ -177,23 +175,28 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         purchase.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //"Item ID" is the auto-generated ID from firestore, was unable to retrieve
-                FirebaseFirestore.getInstance().collection("posts").document(itemPageItem.getId()).delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                PurchaseScreen newFragment = new PurchaseScreen();
-                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                ft.replace(R.id.fragment, newFragment);
-                                ft.commit();
-                                Log.d(TAG, "onSuccess: Deleted document");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.e(TAG, "onFailure: Failed to delete", e);
-                            }
-                        });
+                DocumentSnapshot ref = firestoreInstance.collection("posts").document(itemPageItem.getId()).get().getResult();
+                if (ref.exists()) {
+                    firestoreInstance.collection("posts").document(itemPageItem.getId()).delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    PurchaseScreen newFragment = new PurchaseScreen();
+                                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                    ft.replace(R.id.fragment, newFragment);
+                                    ft.commit();
+                                    Log.d(TAG, "onSuccess: Deleted document");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e(TAG, "onFailure: Failed to delete", e);
+                                }
+                            });
+                } else {
+                    Snackbar.make(rootLayout, "Item has been purchased by another user", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -214,7 +217,7 @@ public class ItemPage extends Fragment implements OnMapReadyCallback {
         getDirections.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uri = String.format("http://maps.google.com/maps?saddr=%f,%f(%s)&daddr=%f,%f (%s)",
+                String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f(%s)&daddr=%f,%f (%s)",
                         userLatitude, userLongitude, "You",
                         itemPageItem.getLatitude(), itemPageItem.getLongitude(), "Item");
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));

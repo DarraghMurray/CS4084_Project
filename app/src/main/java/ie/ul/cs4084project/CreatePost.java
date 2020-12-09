@@ -131,15 +131,8 @@ public class CreatePost extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION}, locationRequestCode);
         } else {
-            LocationFinder finder;
-            finder = new LocationFinder(getContext());
-            if (finder.canGetLocation()) {
-                item.setLatitude(finder.getLatitude());
-                item.setLongitude(finder.getLongitude());
-                Log.d("DDDDDDDDDdd", finder.getLatitude() + " " + finder.getLongitude());
-            } else {
-                finder.showSettingsAlert();
-            }
+            item.setLatitude(((MainActivity) getActivity()).getLatitude());
+            item.setLongitude(((MainActivity) getActivity()).getLongitude());
         }
     }
 
