@@ -155,6 +155,8 @@ public class MainFeed extends Fragment  {
                 holder.userNameTxtView.setText(item.getSellerName());
                 if (!(item.getItemImage() == null)) {
                     Glide.with(getContext()).load(Uri.parse(item.getItemImage())).into(holder.itemHolderImage);
+                } else {
+                    holder.itemHolderImage.setImageResource(R.drawable.no_image_available_icon);
                 }
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
