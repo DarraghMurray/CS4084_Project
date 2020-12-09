@@ -21,7 +21,7 @@
                 android:id="@+id/TextInputName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="24dp"
                 android:background="#40873E"
                 android:hint="@string/item_name"
                 android:paddingHorizontal="12dp"
@@ -60,8 +60,8 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="392dp"
-                    android:layout_height="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:background="#FFFFFF"
                     android:inputType="numberSigned|number" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -77,8 +77,8 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="387dp"
-                    android:layout_height="23dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:background="#FFFFFF"
                     android:inputType="text" />
 
