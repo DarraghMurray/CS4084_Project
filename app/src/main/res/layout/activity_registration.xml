@@ -7,61 +7,77 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="#000000"
     tools:context=".RegistrationActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/actionBarColor"
-        android:text="Register new account" />
+        android:background="#82F391"
+        android:text="@string/register_new_account"
+        android:textSize="20sp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="enter your username..."
+        android:background="#40873E"
+        android:hint="@string/enter_your_username"
+        android:outlineProvider="none"
+        android:paddingHorizontal="12dp"
         app:counterEnabled="true"
         app:counterMaxLength="20"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="30dp"
+            android:background="#FFFFFF"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="enter your email..."
+        android:background="#40873E"
+        android:hint="@string/enter_your_email"
+        android:paddingHorizontal="12dp"
         app:counterEnabled="false"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="30dp"
+            android:background="#FFFFFF"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="enter your password..."
+        android:background="#40873E"
+        android:hint="@string/enter_your_password"
+        android:paddingHorizontal="12dp"
         app:counterEnabled="false"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="30dp"
+            android:background="#FFFFFF"
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_background"
-        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:background="@drawable/lightgreen_button"
+        android:text="@string/register"
         android:textStyle="bold" />
 
     <ProgressBar

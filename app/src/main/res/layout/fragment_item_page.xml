@@ -1,81 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ItemPage" >
+    tools:context=".ItemPage"
+    android:background="#000000">
 
-    <TextView
-        android:id="@+id/itemDescrip"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/itemPricing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemTitle" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/itemTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="100dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/itemDescrip"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <RelativeLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/itemPricing"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/map"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/itemSign"
-        app:layout_constraintTop_toBottomOf="@+id/itemDescrip" />
+            <TextView
+                android:id="@+id/itemTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="#FFFFFF"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/itemSign"
-        android:layout_width="15dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="170dp"
-        android:layout_marginBottom="74dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/map"
-        app:layout_constraintEnd_toStartOf="@+id/itemPricing"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPurchase" />
+            <TextView
+                android:id="@+id/itemDescrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:layout_below="@id/itemTitle"
+                android:layout_alignStart="@id/itemTitle"
+                android:layout_alignEnd="@+id/itemTitle"
+                android:layout_marginTop="8dp"
+                android:textAlignment="center" />
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/map"
-        android:layout_width="413dp"
-        android:layout_height="225dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemPricing" />
+            <ImageView
+                android:id="@+id/itemPageImage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_below="@id/itemDescrip"
+                android:layout_alignBottom="@+id/btnMessageSeller"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="-4dp"
+                app:srcCompat="@drawable/no_image_available_icon"
+                tools:srcCompat="@drawable/no_image_available_icon" />
 
-    <Button
-        android:id="@+id/btnPurchase"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Buy"
-        app:layout_constraintBottom_toTopOf="@+id/itemTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/itemPricing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/itemTitle"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="40dp"
+                android:layout_toEndOf="@id/itemSign"
+                android:background="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/itemSign"
+                android:layout_width="12dp"
+                android:background="#FFFFFF"
+                android:layout_height="match_parent"
+                android:layout_alignBaseline="@id/itemPricing"
+                android:layout_marginStart="40dp"
+                android:layout_toEndOf="@id/itemPageImage"
+                android:text="@string/Euro"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/sellerUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/itemPageImage"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                android:background="#FFFFFF" />
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@id/sellerUser"
+                android:layout_marginTop="24dp" />
+
+            <Button
+                android:id="@+id/btnPurchase"
+                android:layout_width="151dp"
+                android:layout_height="44dp"
+                android:layout_below="@id/itemPricing"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="20dp"
+
+                android:layout_toEndOf="@id/itemPageImage"
+                android:background="@drawable/buy_button"
+                android:text="@string/buy"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnMessageSeller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPurchase"
+                android:layout_alignStart="@+id/btnPurchase"
+                android:layout_alignEnd="@+id/btnPurchase"
+                android:layout_marginTop="24dp"
+                android:text="Message Seller" />
+
+            <Button
+                android:id="@+id/getDirections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/map"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="40dp"
+                android:text="get directions" />
+        </RelativeLayout>
+    </ScrollView>
+
+</FrameLayout>
+

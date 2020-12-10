@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IntroductionScreen">
+    tools:context=".IntroductionScreen"
+    android:background="#000000">
 
 
     <Button
@@ -13,9 +14,9 @@
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="4dp"
-        android:background="@drawable/yellow_button"
+        android:background="@drawable/darkgreen_button"
         android:onClick="onSignInPressed"
-        android:text="Sign-In"
+        android:text="@string/sign_in"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/createAccountButton"
@@ -28,12 +29,28 @@
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/button_background"
+        android:background="@drawable/lightgreen_button"
         android:onClick="onCreateAccountPressed"
-        android:text="Create An Account"
+        android:text="@string/create_an_account"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/signInButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/signInButton"
         app:layout_constraintTop_toTopOf="@+id/signInButton" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="@string/the_item_shop_logo"
+        app:layout_constraintBottom_toTopOf="@+id/signInButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sample_logo"
+        tools:srcCompat="@drawable/sample_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

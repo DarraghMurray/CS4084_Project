@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#000000">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -20,32 +21,32 @@
             android:background="@android:color/white">
 
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
+                android:id="@+id/itemHolderImage"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:contentDescription="item image"
-                app:layout_constraintBottom_toBottomOf="@+id/priceTxtView"
+                android:contentDescription="@string/item_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/nameTxtView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                app:srcCompat="@drawable/no_image_available_icon"
+                tools:srcCompat="@drawable/no_image_available_icon" />
 
             <TextView
                 android:id="@+id/nameTxtView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/itemHolderImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/descriptionTxtView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/nameTxtView"
                 app:layout_constraintTop_toBottomOf="@+id/nameTxtView" />
 
@@ -53,23 +54,32 @@
                 android:id="@+id/priceTxtView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/priceSign"
-                app:layout_constraintTop_toBottomOf="@+id/descriptionTxtView" />
+                app:layout_constraintTop_toBottomOf="@+id/nameTxtView" />
 
             <TextView
                 android:id="@+id/priceSign"
-                android:layout_width="8dp"
-                android:layout_height="19dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginBottom="2dp"
-                android:text="€"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="10dp"
+                android:layout_height="0dp"
+                android:text="@string/Euro"
+                app:layout_constraintBottom_toBottomOf="@+id/priceTxtView"
                 app:layout_constraintEnd_toStartOf="@+id/priceTxtView"
-                app:layout_constraintStart_toEndOf="@+id/imageView" />
+                app:layout_constraintStart_toEndOf="@+id/itemHolderImage"
+                app:layout_constraintTop_toTopOf="@+id/priceTxtView" />
+
+            <TextView
+                android:id="@+id/userNameTxtView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/descriptionTxtView"
+                app:layout_constraintTop_toBottomOf="@+id/priceTxtView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

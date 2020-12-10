@@ -1,22 +1,54 @@
 <resources>
-    <string name="app_name">CS4084 Project</string>
-    <string name="log_in">Log-In</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="google_map_api_key">AIzaSyC_Epve3szsK-sWLU-snsUlp3iWWmT8f7Q</string>
+    <string name="app_name">The Item Shop</string>
+
+    <!--Strings related to Sign in and Registration -->
+    <string name="sign_in">Sign-In</string>
+    <string name="create_an_account">Create An Account</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="account_login">Account login</string>
+    <string name="enter_your_username">enter your username...</string>
+    <string name="enter_your_email">enter your email...</string>
+    <string name="enter_your_password">enter your password...</string>
+    <string name="login">Login</string>
+    <string name="register_new_account">Register new account</string>
+    <string name="register">Register</string>
+    <string name="the_item_shop_logo">The Item Shop Logo</string>
+    <!--Strings related to Main Activity -->
+    <string name="search...">Search...</string>
     <string-array name="categories">
         <item>-select a category-</item>
         <item>Phones</item>
         <item>Laptops</item>
+        <item>Shoes</item>
+        <item>Clothes</item>
+        <item>Games Consoles</item>
+        <item>Cars</item>
     </string-array>
-    <string name="title_activity_login">LoginActivity</string>
+    <!--Strings related to CreatePost -->
+    <string name="post">Post</string>
+    <string name="item_name">Item Name...</string>
+    <string name="item_description">Item Description...</string>
+    <string name="item_price">Item Price...</string>
+    <!--Strings related to FindItem none -->
+    <!--Strings related to ItemPage -->
+    <string name="buy">Buy</string>
+    <!--Strings related to MainFeed none -->
+    <!--Strings related to MessageScreen -->
+    <string name="subject">Subject:</string>
+    <string name="to">To:</string>
+    <string name="body">Body:</string>
+    <string name="send">Send</string>
+    <!--Strings related to PurchaseScreen -->
+    <string name="thank_you_for_purchasing">Thank you for purchasing.</string>
+    <!--Strings related to recyclerview_rows -->
+    <string name="item_image">Item Image</string>
+    <string name="Euro">€</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="google_map_api_key">AIzaSyC_Epve3szsK-sWLU-snsUlp3iWWmT8f7Q</string>
+    <string name="logout">Sign-Out</string>
+    <string name="accept">Accept</string>
+    <string name="title_location_permission">Location Permission</string>
+    <string name="text_location_permission">Permission Required For Location Services</string>
+    <string name="search_for_items">Search For Items...</string>
 </resources>

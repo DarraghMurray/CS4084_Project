@@ -7,44 +7,55 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".LogIn">
+    tools:context=".LogIn"
+    android:background="#000000">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/actionBarColor"
-        android:text="Account login" />
+        android:background="#8EFB93"
+        android:text="@string/account_login"
+        android:textSize="20sp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputEmailSignIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="enter your email..."
+        android:layout_width="380dp"
+        android:layout_height="39dp"
+        android:background="#40873E"
+        android:hint="@string/enter_your_email"
+        android:paddingHorizontal="12dp"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="30dp"
+            android:background="#FFFFFF"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputPasswordSignIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="enter your password..."
-        app:errorEnabled="true">
+        android:layout_width="381dp"
+        android:layout_height="51dp"
+        android:background="#40873E"
+        android:hint="@string/enter_your_password"
+        android:paddingHorizontal="12dp"
+        app:errorEnabled="true"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="30dp"
+            android:background="#FFFFFF"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/logInBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/yellow_button"
-        android:text="Login" />
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:background="@drawable/lightgreen_button"
+        android:text="@string/login" />
 
     <ProgressBar
         android:id="@+id/progressBar"
