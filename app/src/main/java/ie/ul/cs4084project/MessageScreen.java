@@ -66,6 +66,7 @@ public class MessageScreen extends Fragment {
 
     /**
      * onCreate default fragment onCreate method
+     *
      * @param savedInstanceState Bundle
      */
     @Override
@@ -81,6 +82,7 @@ public class MessageScreen extends Fragment {
 
     /**
      * onCreateView default fragment onCreateView method
+     *
      * @param inflater           LayoutInflator
      * @param container          ViewGroup
      * @param savedInstanceState Bundle
@@ -98,6 +100,7 @@ public class MessageScreen extends Fragment {
      * adds seller email if sellerEmail was passed in a bundle
      * initializes sendEmail button and sets on click listener
      * on click retrieves email text and places it in intent and starts email app chooser with the intent
+     *
      * @param view               View
      * @param savedInstanceState Bundle
      */

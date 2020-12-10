@@ -51,5 +51,4 @@
     <string name="title_location_permission">Location Permission</string>
     <string name="text_location_permission">Permission Required For Location Services</string>
     <string name="search_for_items">Search For Items...</string>
-    <string name="cancel">Cancel </string>
 </resources>

@@ -34,7 +34,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextInputLayout usernameText, emailText, passwordText;
     //indicates registrtion is progressing
     private ProgressBar progressBar;
-    //get the rootlayout to display snackbars
+
     private View rootLayout;
 
     //gets current Auth instance
@@ -175,6 +175,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     /**
      * Method checks that entered user name was valid.
+     *
      * @param name String contains text of users input user name.
      * @return True if valid, False if invalid.
      */

@@ -108,7 +108,8 @@ public class CreatePost extends Fragment {
     }
 
     /**
-     * initializes variables
+     * initializes variables and gets location permission
+     * if permission is provided it retrieves the item location and adds it to the item being created
      *
      * @param savedInstanceState Bundle
      */
@@ -122,10 +123,21 @@ public class CreatePost extends Fragment {
         }
         storage = FirebaseStorage.getInstance();
         item = new Item();
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ((MainActivity) getActivity()).permission = false;
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, locationRequestCode);
+        } else {
+            item.setLatitude(((MainActivity) getActivity()).getLatitude());
+            item.setLongitude(((MainActivity) getActivity()).getLongitude());
+        }
     }
 
     /**
      * onCreateView default fragment onCreateView
+     *
      * @param inflater           LayoutInflater
      * @param container          ViewGroup
      * @param savedInstanceState Bundle
@@ -181,8 +193,6 @@ public class CreatePost extends Fragment {
                     item.setCategory(categorySpinner.getSelectedItem().toString());
                     item.setSellerName(auth.getCurrentUser().getDisplayName());
                     item.setId(ref.getId());
-                    item.setLatitude(((MainActivity) getActivity()).getLatitude());
-                    item.setLongitude(((MainActivity) getActivity()).getLongitude());
                     if (imageUri == null) {
                         item.setItemImage(null);
                     } else {
@@ -283,6 +293,7 @@ public class CreatePost extends Fragment {
 
     /**
      * method checks that an item category was chosen
+     *
      * @return True if appropriate category chosen, False if nothing selected or select a category is picked
      */
     private boolean validateCategory() {
@@ -296,6 +307,7 @@ public class CreatePost extends Fragment {
 
     /**
      * method checks that item price entered was valid
+     *
      * @return True if valid, False if invalid
      */
     private boolean validatePrice() {
@@ -312,6 +324,7 @@ public class CreatePost extends Fragment {
 
     /**
      * method checks that item description entered was valid
+     *
      * @return True if valid, False if invalid
      */
     private boolean validateDescription() {
@@ -328,6 +341,7 @@ public class CreatePost extends Fragment {
 
     /**
      * method checks that item name entered was valid
+     *
      * @return True if valid, False if invalid
      */
     private boolean validateName() {

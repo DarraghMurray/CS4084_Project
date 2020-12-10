@@ -45,13 +45,13 @@ public class Profile extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    //button for profile updates
     private Button updateEmailBtn;
     private Button updatePasswordBtn;
 
-    //text inputs for profile updates
     TextInputLayout textInputNewEmail;
     TextInputLayout textInputNewPass;
+
+    Button reLogBtn;
 
     View rootLayout;
 
@@ -79,11 +79,6 @@ public class Profile extends Fragment {
         return fragment;
     }
 
-    /**
-     * default fragment onCreate
-     *
-     * @param savedInstanceState Bundle
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,14 +88,6 @@ public class Profile extends Fragment {
         }
     }
 
-    /**
-     * default fragment onCreateView
-     *
-     * @param inflater           LayoutInflater
-     * @param container          ViewGroup
-     * @param savedInstanceState Bundle
-     * @return inflated layout
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -108,13 +95,6 @@ public class Profile extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
-    /**
-     * initializes UI elements and sets button listeners for
-     * update password and update email
-     *
-     * @param view               View
-     * @param savedInstanceState Bundle
-     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -123,6 +103,7 @@ public class Profile extends Fragment {
         textInputNewPass = view.findViewById(R.id.textInputNewPass);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         rootLayout = getActivity().findViewById(android.R.id.content);
+        reLogBtn = view.findViewById(R.id.reLogBtn);
         updateEmailBtn = view.findViewById(R.id.updateEmailBtn);
         updatePasswordBtn = view.findViewById(R.id.updatePasswordBtn);
 
@@ -138,11 +119,14 @@ public class Profile extends Fragment {
                 updatePassword();
             }
         });
+        reLogBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reLog();
+            }
+        });
     }
 
-    /**
-     * method to update user email
-     */
     private void updateEmail() {
         String email = textInputNewEmail.getEditText().getText().toString();
         currentUser.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -155,6 +139,7 @@ public class Profile extends Fragment {
             public void onFailure(@NonNull Exception e) {
                 if (e instanceof FirebaseAuthRecentLoginRequiredException) {
                     Toast.makeText(getContext(), "Must Have Logged-In recently", Toast.LENGTH_LONG).show();
+                    reLog();
                 } else if (e instanceof FirebaseAuthEmailException) {
                     Snackbar.make(rootLayout, "Reset Email Failed to Send", Snackbar.LENGTH_LONG).show();
                 } else if (e instanceof FirebaseAuthUserCollisionException) {
@@ -166,9 +151,6 @@ public class Profile extends Fragment {
         });
     }
 
-    /**
-     * method to update user password
-     */
     private void updatePassword() {
         String password = textInputNewPass.getEditText().getText().toString();
         currentUser.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -181,6 +163,7 @@ public class Profile extends Fragment {
             public void onFailure(@NonNull Exception e) {
                 if (e instanceof FirebaseAuthRecentLoginRequiredException) {
                     Toast.makeText(getContext(), "Must have logged-In recently", Toast.LENGTH_LONG).show();
+                    reLog();
                 } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     Snackbar.make(rootLayout, "Password Too Weak", Snackbar.LENGTH_LONG).show();
                 } else if (e instanceof FirebaseAuthEmailException) {
@@ -190,5 +173,12 @@ public class Profile extends Fragment {
                 }
             }
         });
+    }
+
+    private void reLog() {
+        List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
+        startActivityForResult(
+                AuthUI.getInstance().createSignInIntentBuilder()
+                        .setAvailableProviders(providers).build(), RC_RE_LOG);
     }
 }
