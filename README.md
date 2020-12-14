@@ -1,7 +1,7 @@
 # CS4084_Project
   
   Our app is a Google maps-based marketplace app that allows users to buy and sell items using Google maps to locate items to pick up
-and set locations for their items to be picked up at. This is done by getting the users device location upon them creating an item post. The app contains the colour scheme of the University of Limerick throughout and offers an easy-to-use user interface.
+and set locations for their items to be picked up at. This is done by getting the users device location upon the MainActivity starting and maintaining an updated value for their location. Aside from this it contains the standard main features of an online marketplace such as creating posts, item pages, item feeds, search and messaging. The app contains the colour scheme of the University of Limerick throughout and offers an easy-to-use user interface.
 
 Set Up -
      The app requires creating an account with an email and password. It also requests a user name which
