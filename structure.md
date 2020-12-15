@@ -1,3 +1,3 @@
 # Structure
 
-   <img src="images/Emoticons/cool.png" />
+   <img src="ActivityDiagram.PNG" />
