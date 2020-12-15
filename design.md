@@ -40,6 +40,19 @@
                   from firebase Authentication signInWithEmailAndPassword which takes
                   the entered fields and authenticates that they are valid and logs-in
                   the user. There are also validation methods to ensure the entered
-                  password or email are valid.
+                  password or email are valid. There are also messages provided to
+                  the user via snackbars and toasts if these validation methods fail 
+                  or if there are exceptions with log-in to explain what happened.
             
             RegistrationActivity -
+                  This activity allows a user to enter a username, email and password 
+                  in to textboxes and lets them press a register button which uses the method
+                  from firebase Authentication createAccountWithEmailAndPassword which takes
+                  the entered fields and authenticates that they are valid and registers
+                  the user. It stores them so that Log-In can be authenticated. There are 
+                  also validation methods to ensure the entered username, email or password
+                  are valid. There are also messages provided to the user via snackbars and 
+                  toasts if these validation methods fail or if there are exceptions with
+                  registration to explain what happened.
+                  
+            MainActivity -
