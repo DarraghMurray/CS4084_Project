@@ -1,3 +1,3 @@
 # Structure
 
-   <img src="/ActivityDiagram.PNG" />
+   <img src="/ActivityDiagram.PNG" width = "400" />
