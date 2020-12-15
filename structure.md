@@ -1,3 +1,3 @@
 # Structure
 
-   <img src="/ActivityDiagram.PNG" width = "400" />
+   ![Activities Diagram](https://github.com/DarraghMurray/CS4084_Project/blob/master/ActivityDiagram.PNG?raw=true)
