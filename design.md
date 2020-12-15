@@ -71,4 +71,32 @@
                   also provides a Spinner for categories.
                         Searchbox and button -
                               When the button is pressed a search is done using whatever text
-                              is in the searchbox.
+                              is in the searchbox. It does this by changing fragment to the
+                              FindItem fragment and provides the searchTerm as an argument
+                              in a bundle. If there is no searchTerm it simply reloads the
+                              MainFeed.
+                        Category Spinner -
+                              the spinner has an item selected listener which checks if an
+                              item has been selected and if they have picked an option other
+                              than the default it changes fragment to the FindItem fragment
+                              and provides the selected category as an argument in a bundle.
+                              If no item was selected or the default it reloads the MainFeed.
+                              
+                   Below this section is the Fragment Container which stores a fragment over
+                   about 80% of the screen. Beneath this there are four buttons. These allow
+                   the user to at any point move to different fragments to get to the main feed, 
+                   create a post, update their profile or send a message.
+                   
+                   The Main Activity also has the basic infrastructure/functions for locating
+                   a user and keeping this location up to date. Unfortunately we didn't have
+                   time to implement this feature fully and test that it worked. It is also
+                   where the user will be asked for permission for location services.
+      
+      Fragments -
+      
+            MainFeed - 
+                  This fragment displays the items in the database on a scrolling view. This is
+                  done creating a database query for posts order by timestamp and placing the
+                  results in a firestore recyclerview.
+                       
+                 
