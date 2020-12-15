@@ -27,13 +27,10 @@
 
 # Design Choices
 
+      Theme - 
+            We choose to use the theme of UL's colours instead of a plain white. We matched the padding and text box's with this to give it a modern clean look while also                   making it easy to look at. The Item Shop Logo is one we made ourselves using Canva. 
+
       Activities -
-      
-            Theme - 
-                  We choose to use the theme of UL's colours instead of a plain white.
-                  We matched the padding and text box's with this to give it 
-                  a modern clean look while also making it easy to look at.
-                  The Item Shop Logo is one we made ourselves using Canva. 
       
             IntroductionScreen - 
                   This activity contains two buttons to Log-In or Create Account. 
@@ -62,3 +59,14 @@
                   registration to explain what happened.
                   
             MainActivity -
+                  This activity has an action bar with a back arrow and a sign-out button.
+                        back arrow - 
+                              this pops the fragment Backstack to return the user to the
+                              previous fragment they were at.
+                        sign-out -
+                              this button calls the firebase Authentication sign out method
+                              which signs out the current user. An intent is then used to
+                              open the LogIn activity.
+                  Below the action bar the activity has a searchbox and a search button. It 
+                  also provides a Spinner for categories.
+                        Searchbox and button -
