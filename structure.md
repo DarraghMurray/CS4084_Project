@@ -1,3 +1,3 @@
 # Structure
 
-   <img src="/ActivityDiagram.png" />
+   <img src="/ActivityDiagram.PNG" />
