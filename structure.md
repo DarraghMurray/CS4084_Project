@@ -1,3 +1,3 @@
 # Structure
-  
-   ![Image of Activity Navigation](/ActivityDiagram.PNG)
+
+   <img src="images/Emoticons/cool.png" />
