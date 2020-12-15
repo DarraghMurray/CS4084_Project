@@ -70,3 +70,5 @@
                   Below the action bar the activity has a searchbox and a search button. It 
                   also provides a Spinner for categories.
                         Searchbox and button -
+                              When the button is pressed a search is done using whatever text
+                              is in the searchbox.
