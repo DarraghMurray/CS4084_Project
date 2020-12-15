@@ -30,7 +30,10 @@
       Activities -
       
             Theme - 
-                  We choose to use the theme of UL's colours instead of a plain white. We matched the padding and text box's with this to give it a modern clean look while also                   making it easy to look at. The Item Shop Logo is one we made ourselves using Canva. 
+                  We choose to use the theme of UL's colours instead of a plain white.
+                  We matched the padding and text box's with this to give it 
+                  a modern clean look while also making it easy to look at.
+                  The Item Shop Logo is one we made ourselves using Canva. 
       
             IntroductionScreen - 
                   This activity contains two buttons to Log-In or Create Account. 
