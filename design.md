@@ -107,6 +107,27 @@
             MainFeed - 
                   This fragment displays the items in the database on a scrolling view. This is
                   done creating a database query for posts order by timestamp and placing the
-                  results in a firestore recyclerview.
+                  results in a firestore recyclerview. In the recycler we fill item holders 
+                  with item objects and display the information we need for an item listing in 
+                  the item holder. There is also a click listener to take the user to the item
+                  page of the item listing they click on we do this by swapping to an Item Page
+                  fragment and send a parcelled item to this fragment via a bundle.
+            CreatePost -
+                  This fragment is responsible for allowing a user to create an item post and it
+                  adds this to the database.
+            Profile -
+                  This fragment allows a user to update their account email or password and re-log
+                  if they haven't logged in recently. The re-log button was made defunct by the 
+                  sign-out button added to main activity. That is now the intended way a user 
+                  would re-log.
+            MessageScreen -
+                  This fragment allows users to message each other through emails.
+            FindItem -
+                  This fragment fills a scroll view with the results of a search query of the
+                  database.
+            ItemPage - 
+                  This fragment is used to generate pages for items to be displayed on and 
+                  bought from.
+            PurchaseScreen - Informs a user of a successful purchase and thanks them.
                        
                  
