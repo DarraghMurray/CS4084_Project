@@ -136,6 +136,9 @@
             ItemPage - 
                   This fragment is used to generate pages for items to be displayed on and 
                   bought from.
-            PurchaseScreen - Informs a user of a successful purchase and thanks them.
+            PurchaseScreen - 
+                  Informs a user of a successful purchase and thanks them. This is where
+                  transactions would occur if they were implemented but it currently just
+                  displays a thanks for purchasing message.
                        
                  
