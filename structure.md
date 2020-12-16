@@ -1,7 +1,7 @@
 # Structure
 
 ### Navigation graph for Activites
-   ![Activities Diagram](https://raw.githubusercontent.com/DarraghMurray/CS4084_Project/master/ActivityDiagram.PNG)
+   <img src="https://raw.githubusercontent.com/DarraghMurray/CS4084_Project/master/ActivityDiagram.PNG" width = "1600"/>
    
 ### Navigation graph for fragments used in MainActivity
-   ![Fragments Diagram](https://raw.githubusercontent.com/DarraghMurray/CS4084_Project/master/FragmentDiagram.PNG)
+   <img src="https://raw.githubusercontent.com/DarraghMurray/CS4084_Project/master/FragmentDiagram.PNG" width="1600"/>
