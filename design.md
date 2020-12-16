@@ -141,7 +141,14 @@
                   will search for item names beginning with the search term.
             ItemPage - 
                   This fragment is used to generate pages for items to be displayed on and 
-                  bought from.
+                  bought from. It takes a parcelled Item object as an argument and displays
+                  the data on screen through textviews mainly. It adds the item image Uri to the
+                  imageview using a command from the glide library. The users current latitude and
+                  longitude are also retrieved and used to set a marker on a google map alongwith 
+                  an item location marker. The camera focuses the map on the item location marker.
+                  There is also a get directions method which sends an intent with the two
+                  sets of co-ordinates to launch the google maps app and enter the locations to
+                  try and find a route from the user to the item.
             PurchaseScreen - 
                   Informs a user of a successful purchase and thanks them. This is where
                   transactions would occur if they were implemented but it currently just
