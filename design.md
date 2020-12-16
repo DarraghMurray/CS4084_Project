@@ -217,7 +217,7 @@
             This is a way we need to limit the user as they can abuse this if it isn't properly
             validated.
                       
-    
-[STRUCTURE](structure.md)
 
 [Introduction](README.md)
+
+[STRUCTURE](structure.md)
