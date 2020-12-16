@@ -122,7 +122,10 @@
                   This fragment allows a user to update their account email or password and re-log
                   if they haven't logged in recently. The re-log button was made defunct by the 
                   sign-out button added to main activity. That is now the intended way a user 
-                  would re-log.
+                  would re-log. The screen contains two text boxes and two update buttons. one 
+                  of these calls the firebase Authentication method updateEmail and the other calls
+                  updatePassword. This section was also supposed to contain validation checks similiar
+                  to the LogIn screen.
             MessageScreen -
                   This fragment allows users to message each other through emails.
                    We allow users to type the to, subject and body of an email on the 
