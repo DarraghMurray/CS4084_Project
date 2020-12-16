@@ -94,9 +94,10 @@
                               If no item was selected or the default it reloads the MainFeed.
                               
                    Below this section is the Fragment Container which stores a fragment over
-                   about 80% of the screen. Beneath this there are four buttons. These allow
-                   the user to at any point move to different fragments to get to the main feed, 
-                   create a post, update their profile or send a message.
+                   about 80% of the screen. This is where all fragments are used so the majority
+                   of the users activity occurs here. Beneath this there are four buttons. These 
+                   allow the user to at any point move to different fragments to get to the main 
+                   feed, create a post, update their profile or send a message.
                    
                    The Main Activity also has the basic infrastructure/functions for locating
                    a user and keeping this location up to date. Unfortunately we didn't have
