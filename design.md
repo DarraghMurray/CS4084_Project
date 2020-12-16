@@ -201,15 +201,20 @@
             to use.
       Search/Categories - 
             If we had the time it would've been better to implement these in such a way where we 
-            could use both atthe same time as search or category will both override the other if 
-            the other is used.
+            could use both at the same time as search or category will both override the other if 
+            the they are used.
       Locations -
-            Unfortunately we didn't get locations to work in time for the submission deadline but
-            we have managed to work out what went wrong as there was a permission check that was
+            Unfortunately we didn't get to implement locations in time for the submission deadline 
+            but we have managed to work out what went wrong as there was a permission check that was
             checking if we need to build a dialog box to ask the user for permission which wasn't
-            showing properly so never advanced but we realized that this was actually uneccessary 
-            as we already check permissions on application start so we just needed to disable the
-            location features if the user denied permission at that point.So removed it and the 
-            locations and permissions now work in the latest version.
+            showing properly so never let a user accept and advance but we realized that this was 
+            actually uneccessary as we already check permissions on application start. 
+            So we removed the if statement and dialogbox and the locations and permissions now 
+            work in the latest version.
+      CreatePost -
+            We could've implemented checks apart from if fields are empty as we don't check for size
+            of data a user enters which means they can make way too long item names and other issues.
+            This is a way we need to limit the user as they can abuse this if it isn't properly
+            validated.
                        
                  
