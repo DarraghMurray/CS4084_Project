@@ -32,6 +32,9 @@
             from section is automatically filled from the current users email. We also fill in the
             to section if a user clicks on the message seller button on an item page. This is done 
             using an Intent to request a chooser for email apps to send the email from.
+      Glide Library -
+            We used the commands in this library loading firebase storage images into image views
+            on item page and create post.
 
 # Design Choices
 
@@ -147,13 +150,20 @@
             ItemPage - 
                   This fragment is used to generate pages for items to be displayed on and 
                   bought from. It takes a parcelled Item object as an argument and displays
-                  the data on screen through textviews mainly. It adds the item image Uri to the
+                  the data on screen through textviews mainly. It adds the item image to the
                   imageview using a command from the glide library. The users current latitude and
                   longitude are also retrieved and used to set a marker on a google map alongwith 
-                  an item location marker. The camera focuses the map on the item location marker.
-                  There is also a get directions method which sends an intent with the two
+                  an item location marker. The camera focuses the mapview on the item location 
+                  marker. There is also a get directions method which sends an intent with the two
                   sets of co-ordinates to launch the google maps app and enter the locations to
-                  try and find a route from the user to the item.
+                  try and find a route from the user to the item. The map also allows zoom.
+                  There is a message seller button which changes fragment to the MessageScreen and 
+                  adds the email of the seller as an argument. The buy button will remove the 
+                  item from the database provided it still exists and swaps to the PurchaseScreen
+                  fragment otherwise it will send a toast to say item has been purchased
+                  by another user. This section was also supposed to delete the image from
+                  firebase storage upon successful purchase but was removed due to a lack
+                  of testing.
             PurchaseScreen - 
                   Informs a user of a successful purchase and thanks them. This is where
                   transactions would occur if they were implemented but it currently just
