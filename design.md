@@ -117,10 +117,12 @@
             CreatePost -
                   This fragment is responsible for allowing a user to create an item post and it
                   adds this to the database. The user can enter details of the item and pick an
-                  image via an intent that opens their gallery the image is then stored in firebase
-                  storage and its Uri is stored in the firestore database. Their latitude and
-                  longitude is also added to the database. The user doesn't have to pick an image
-                  to advance as we have a default image for the item pages.
+                  image via an intent that opens their gallery and if they select an image it is 
+                  then uploaded to firebasestorage and its Uri is stored in the firestore database. 
+                  Their latitude and longitude is also added to the database. The user doesn't have 
+                  to pick an image to advance as we have a default image for the item pages. Validation
+                  checks are also performed for the textviews and category spinner as these fields must
+                  be filled. Seller details are also added to the Item which is placed in the database.
             Profile -
                   This fragment allows a user to update their account email or password and re-log
                   if they haven't logged in recently. The re-log button was made defunct by the 
