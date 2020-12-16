@@ -220,4 +220,4 @@
 
 [Introduction](README.md)
 
-[STRUCTURE](structure.md)
+[Structure](structure.md)
