@@ -4,4 +4,4 @@
    <img src="https://raw.githubusercontent.com/DarraghMurray/CS4084_Project/master/ActivityDiagram.PNG" />
    
 ### Navigation graph for fragments used in MainActivity
-   <img src="https://raw.githubusercontent.com/DarraghMurray/CS4084_Project/master/FragmentDiagram.PNG" />
+   <img src="https://raw.githubusercontent.com/DarraghMurray/CS4084_Project/master/FragmentDiagram.PNG" height = 800 />
