@@ -108,7 +108,7 @@
       
             MainFeed - 
                   This fragment displays the items in the database on a scrolling view. This is
-                  done creating a database query for posts order by timestamp and placing the
+                  done by creating a database query for posts ordered by timestamp and placing the
                   results in a firestore recyclerview. In the recycler we fill item holders 
                   with item objects and display the information we need for an item listing in 
                   the item holder. There is also a click listener to take the user to the item
@@ -119,7 +119,8 @@
                   adds this to the database. The user can enter details of the item and pick an
                   image via an intent that opens their gallery the image is then stored in firebase
                   storage and its Uri is stored in the firestore database. Their latitude and
-                  longitude is also added to the database.
+                  longitude is also added to the database. The user doesn't have to pick an image
+                  to advance as we have a default image for the item pages.
             Profile -
                   This fragment allows a user to update their account email or password and re-log
                   if they haven't logged in recently. The re-log button was made defunct by the 
