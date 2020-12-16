@@ -135,7 +135,10 @@
                    Intent to request a chooser for email apps to send the email from.
             FindItem -
                   This fragment fills a scroll view with the results of a search query of the
-                  database.
+                  database. This operates the same as MainFeed but it can receive a category
+                  or search term as an argument which are used to create a query. This query
+                  will either find items with the same category as the user selected or it
+                  will search for item names beginning with the search term.
             ItemPage - 
                   This fragment is used to generate pages for items to be displayed on and 
                   bought from.
@@ -143,5 +146,9 @@
                   Informs a user of a successful purchase and thanks them. This is where
                   transactions would occur if they were implemented but it currently just
                   displays a thanks for purchasing message.
+                  
+      Support Classes -
+            Item -
+            ItemHolder -
                        
                  
