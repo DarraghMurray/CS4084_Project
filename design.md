@@ -165,6 +165,36 @@
                   required methods for a ViewHolder class. It also has a layout file that
                   sets the layout for individual ItemHolders.
                   
-# Lessons Learned      
+# Lessons Learned    
+      
+      Planning Features - 
+            Our proposal was quite detailed but I noticed there some nice features from other
+            marketplace websites and apps that you don't notice but are quite useful. For
+            example I didn't think of a back button or sign-out button until the last two
+            weeks of the project. I think that updating the proposal document throughout
+            would've helped to see these small features that make an app easy to use.
+     Prioritization -
+            We tended to try and focus on adding new big features to the app but at times
+            it would've been better to improve existing features to make them more complete
+            or we spent a lot of time on a feature when it may have been better to add a few
+            small features to other parts of the app.
+     Search/database -
+            We may have been better off using a different type of database as cloud firestore
+            doesn't provide a means of full text search although it does suggest solutions like
+            Algolia which I attempted to use however it required firebase cloud functions which 
+            would've forced us to upgrade our firebase project to a pay as you go plan in order 
+            to use.
+      Search/Categories - 
+            If we had the time it would've been better to implement these in such a way where we 
+            could use both atthe same time as search or category will both override the other if 
+            the other is used.
+      Locations -
+            Unfortunately we didn't get locations to work in time for the submission deadline but
+            we have managed to work out what went wrong as there was a permission check that was
+            checking if we need to build a dialog box to ask the user for permission which wasn't
+            showing properly so never advanced but we realized that this was actually uneccessary 
+            as we already check permissions on application start so we just needed to disable the
+            location features if the user denied permission at that point.So removed it and the 
+            locations and permissions now work in the latest version.
                        
                  
