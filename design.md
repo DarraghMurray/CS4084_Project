@@ -66,7 +66,8 @@
                   also validation methods to ensure the entered username, email or password
                   are valid. There are also messages provided to the user via snackbars and 
                   toasts if these validation methods fail or if there are exceptions with
-                  registration to explain what happened.
+                  registration to explain what happened. A profile update is used to set
+                  the firebase Authentication display name to the username entered.
                   
             MainActivity -
                   This activity has an action bar with a back arrow and a sign-out button.
