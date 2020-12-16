@@ -156,6 +156,15 @@
                   
       Support Classes -
             Item -
+                  This class is for creating Item objects that contain all the database
+                  information for a single Item. It has get and set methods and a default
+                  constructor. It also implements parcelable to allow the Items to be
+                  transferred via bundles in an Intent.
             ItemHolder -
+                  This class initializes the ItemHolder UI elements and implements all
+                  required methods for a ViewHolder class. It also has a layout file that
+                  sets the layout for individual ItemHolders.
+                  
+# Lessons Learned      
                        
                  
