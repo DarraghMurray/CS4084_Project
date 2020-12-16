@@ -125,6 +125,11 @@
                   would re-log.
             MessageScreen -
                   This fragment allows users to message each other through emails.
+                   We allow users to type the to, subject and body of an email on the 
+                   message screen. The from section is automatically filled from the 
+                   current users email. We also fill in the to section if a user clicks 
+                   on the message seller button on an item page. This is done using an 
+                   Intent to request a chooser for email apps to send the email from.
             FindItem -
                   This fragment fills a scroll view with the results of a search query of the
                   database.
